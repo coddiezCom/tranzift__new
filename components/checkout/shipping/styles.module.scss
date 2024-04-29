@@ -1,0 +1,184 @@
+@import "../base";
+.shipping {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  .col {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 700px) {
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+  }
+  form {
+    width: 100%;
+    transition: all 0.2s;
+    button {
+      width: 150px;
+      // height: 50px;
+      color: #fff;
+      font-weight: 600;
+      background: #000;
+      cursor: pointer;
+    }
+    .select {
+      width: 220px;
+      margin-bottom: 10px !important;
+    }
+  }
+}
+.hide_show {
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1em 0.4em;
+    border-bottom: 2px solid #6176fe;
+    gap: 2px;
+    border-radius: 0.3em;
+    transition: ease-in-out 0.5s;
+
+    &:hover {
+      box-shadow: 0px 7px 11px -6px #6176fe;
+      color: #6176fe;
+    }
+  }
+}
+.addresses {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+  width: 100%;
+  flex-wrap: wrap;
+  > div {
+    width: calc(33.33% - 3rem);
+  }
+  .address {
+    position: relative;
+    // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+    min-height: 14em;
+    &__overlay {
+    }
+    &__delete {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      fill: #666;
+      filter: invert(10%);
+      z-index: 1;
+    }
+    &__Edit {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1rem;
+      fill: #666;
+      filter: invert(10%);
+      z-index: 1;
+    }
+    &__col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3em;
+      padding: 0.5em 0;
+      font-size: 0.8rem;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        svg {
+          fill: #666;
+        }
+      }
+    }
+    &__side {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5em;
+      img {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        box-shadow: $shadow-1;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+//
+.addressForm {
+  display: flex;
+  width: fit-content;
+  width: -moz-fit-content;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400;
+  .addressForm__form {
+    > form {
+      width: 36em;
+      background-color: white;
+      padding: 2.5em;
+      border-radius: 1em;
+      border: 2px solid gray;
+      display: flex;
+      flex-direction: column;
+
+      .addressForm__row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        column-gap: 0.3em;
+        > div {
+          width: calc((100% / 2) - 0.6em);
+        }
+      }
+      > button {
+        padding: 0.5em 0.4em;
+        // border-radius: 0.7em;
+        margin-left: auto;
+      }
+    }
+  }
+  .addressForm__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.3rem;
+    fill: #666;
+    filter: invert(10%);
+  }
+}
+
+// Modal
+.__modal {
+  > div {
+    &:first-of-type {
+      background-color: transparent !important;
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+    }
+  }
+}
