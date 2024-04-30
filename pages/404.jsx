@@ -1,7 +1,7 @@
 import React from "react";
 import NotFoundSvg from "../public/svg/3.svg";
 import Image from "next/image";
-// import styles from "../../styles/notFound.module.scss";
+// import styles from "@/styles/notFound.module.scss";
 import styles from "../styles/notFound.module.scss";
 import { useRouter } from "next/router";
 const Index = () => {

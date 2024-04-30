@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 // import validation liabary
 import * as Yup from "yup";
 import { Form, Formik } from "formik";

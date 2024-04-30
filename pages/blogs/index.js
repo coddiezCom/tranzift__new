@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/blogs.module.scss";
+import styles from "@/styles/blogs.module.scss";
 // import { BannerWithVideo } from "@/components/Banner";
 import { FaArrowRight } from "react-icons/fa";
 import fs from "fs";
@@ -14,19 +14,19 @@ import { useRouter } from "next/router";
 export const BlogCards = ({ blogCategories }) => {
   const router = useRouter();
   const blogCard = blogCategories[0].link;
-  const RedirectToBlogPage = (data)=>{
-    const {category, fileName} = data?.frontMatter?.slug;
-    let fileNameWithoutExtension = fileName.split('.')[0];
+  const RedirectToBlogPage = (data) => {
+    const { category, fileName } = data?.frontMatter?.slug;
+    let fileNameWithoutExtension = fileName.split(".")[0];
     const combinedSlug = `${category}-${fileNameWithoutExtension}`;
     router.push(`/blogs/${combinedSlug}`);
-  }
+  };
   return (
     <ul className={styles.__blogs__cards}>
       {blogCard?.map((item, index) => {
         return (
           <li
             className="shadow-md shadow-gray-300 rounded-md p-4 cursor-pointer transition-all duration-300 ease-in-out hover:scale-105/100 hover:shadow-2xl"
-            onClick={()=>RedirectToBlogPage(item)}
+            onClick={() => RedirectToBlogPage(item)}
             key={index}
           >
             <BlogCard key={index} content={item} />
@@ -42,22 +42,12 @@ export const BlogCard = ({ content }) => {
     <>
       <div className={styles.__blogCard}>
         <div className={styles.__blogCard__image}>
-          <Image
-            src={frontMatter?.cardImage}
-            width={500}
-            height={500}
-            alt={"blog"}
-            className="drop-shadow-md"
-          />
+          <Image src={frontMatter?.cardImage} width={500} height={500} alt={"blog"} className="drop-shadow-md" />
         </div>
         <div className={styles.__blogCard__content}>
-          <p className={styles.__blogCard__content__date}>
-            {frontMatter?.date}
-          </p>
+          <p className={styles.__blogCard__content__date}>{frontMatter?.date}</p>
           <h3 className={styles.__blogCard__content__title}>
-            {frontMatter?.title.length > 50
-              ? frontMatter?.title?.substring(0, 50) + "..."
-              : frontMatter?.title}
+            {frontMatter?.title.length > 50 ? frontMatter?.title?.substring(0, 50) + "..." : frontMatter?.title}
           </h3>
           <p className={styles.__blogCard__content__desc}>
             {frontMatter?.description.length > 200
@@ -126,7 +116,7 @@ export async function getStaticProps() {
     const links = fs.readdirSync(subDirPath).map((linkItem) => {
       const filePath = path.join(subDirPath, linkItem);
       const markdownWithMeta = fs.readFileSync(filePath, "utf-8");
-      const { data: frontMatter, content } = matter(markdownWithMeta); // convert mdx -> html 
+      const { data: frontMatter, content } = matter(markdownWithMeta); // convert mdx -> html
 
       return {
         name: linkItem.replace(".mdx", ""),

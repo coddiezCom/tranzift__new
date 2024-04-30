@@ -10,10 +10,10 @@ import Image from "next/image";
 // react-icon
 import { RiAccountPinCircleLine } from "react-icons/ri";
 // utils
-import apiHelper from ".@/utils/apiHelper";
 // components
 import UserMenu from "./UserMenu";
 import HamburgerNavBar from "./HamburgerNavBar";
+import apiHelper from "@/utils/apiHelper";
 
 const PostHeader = ({ showOnly, mobileLinks, navigationLinks }) => {
   const router = useRouter();
@@ -114,10 +114,9 @@ const PostHeader = ({ showOnly, mobileLinks, navigationLinks }) => {
               {userDetail.token ? (
                 // "hii"
                 <Avatar
-                  {...stringAvatar(userDetail?.firstName.toUpperCase() + " " + userDetail?.lastName.toUpperCase())}
+                  {...stringAvatar(userDetail?.firstName)}
                 />
               ) : (
-                // <Avatar name={userDetail?.firstName} size="40" round={true} />
                 <RiAccountPinCircleLine />
               )}
             </div>

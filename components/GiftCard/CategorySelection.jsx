@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 // import Select from "react-select";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 // MUI
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";

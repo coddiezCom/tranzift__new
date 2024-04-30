@@ -1,7 +1,7 @@
 import React from "react";
 // Styles
-import styles from "../../styles/disclaimer.module.scss";
-import footerLinkStyles from "../../styles/footerLinks.module.scss";
+import styles from "@/styles/disclaimer.module.scss";
+import footerLinkStyles from "@/styles/footerLinks.module.scss";
 // MDX Utility
 import fs from "fs";
 import path from "path";
@@ -61,7 +61,7 @@ export async function getStaticProps() {
 
   const { data: frontMatter, content } = matter(markdownWithMeta);
   const mdxSource = await serialize(content);
-  
+
   return {
     props: {
       frontMatter: frontMatter,

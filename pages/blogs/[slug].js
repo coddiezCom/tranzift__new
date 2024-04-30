@@ -5,7 +5,7 @@ import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 import Head from "next/head";
-import styles from "../../styles/blogs.module.scss";
+import styles from "@/styles/blogs.module.scss";
 import { useRouter } from "next/router";
 const Index = ({ frontMatter, content, mdxSource }) => {
   // console.log(frontMatter, content, mdxSource, "mdxSource");
@@ -54,10 +54,9 @@ export async function getStaticPaths() {
       const slug = file.replace(".mdx", "");
       const combinedSlug = `${category}-${slug}`;
       paths.push({ params: { slug: combinedSlug } }); // Use 'slug' instead of 'combinedSlug' here
-
     });
   }
-  console.log(paths,"paths");
+  console.log(paths, "paths");
   return {
     paths,
     fallback: false,

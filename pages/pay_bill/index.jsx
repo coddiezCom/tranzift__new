@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/pay_bill.module.scss";
+import styles from "@/styles/pay_bill.module.scss";
 import Banner from "../../components/Banner";
 import Image from "next/image";
 import * as Yup from "yup";

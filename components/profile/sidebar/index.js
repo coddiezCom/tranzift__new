@@ -7,7 +7,6 @@ import styles from "./styles.module.scss";
 // import react icons
 import { RxCross2 } from "react-icons/rx";
 // import react avtar
-// import Avatar from "react-avatar";
 import { stringAvatar } from "@/utils/avatarGenerator";
 // import react Avatar
 import { Avatar } from "@mui/material";

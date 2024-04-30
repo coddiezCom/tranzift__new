@@ -1,6 +1,6 @@
 import React from "react";
 // Styles
-import styles from "../../styles/aboutUs.module.scss";
+import styles from "@/styles/aboutUs.module.scss";
 // Components
 import { BannerWithoutSwiper } from "../../components/Banner";
 import Image from "next/image";

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 // import react-icons
 import { FaEdit } from "react-icons/fa";
 

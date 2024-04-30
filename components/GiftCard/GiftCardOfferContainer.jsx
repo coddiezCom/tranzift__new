@@ -8,7 +8,7 @@ import Divider from "@mui/material/Divider";
 import CopyToClipboard from "react-copy-to-clipboard";
 // import styles
 import { styled } from "@mui/material/styles";
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 const Index = ({ card }) => {
   // console.log(card, "card");
   const Root = styled("div")(({ theme }) => ({

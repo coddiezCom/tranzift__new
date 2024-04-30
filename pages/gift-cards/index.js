@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router"; // router import
 import InfiniteScroll from "react-infinite-scroll-component";
-import apiHelper from ".@/utils/apiHelper";
+import apiHelper from "@/utils/apiHelper";
 import PulseLoader from "react-spinners/PulseLoader";
 import GiftCard from "../../components/GiftCard/GiftCard";
 import GiftCardBanner from "../../components/GiftCard/GiftCardBanner";
 import CategorySelection from "../../components/GiftCard/CategorySelection";
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 
 const SkeletonLoader = () => {
   return (

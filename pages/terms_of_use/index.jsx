@@ -2,8 +2,8 @@ import React from "react";
 import fs from "fs";
 import path from "path";
 // Style
-import styles from "../../styles/term_of_use.module.scss";
-import footerLinkStyles from "../../styles/footerLinks.module.scss";
+import styles from "@/styles/term_of_use.module.scss";
+import footerLinkStyles from "@/styles/footerLinks.module.scss";
 
 // MDX Utility
 import matter from "gray-matter";

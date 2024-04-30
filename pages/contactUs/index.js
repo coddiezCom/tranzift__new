@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as Yup from "yup";
-import styles from "../../styles/contactUs.module.scss";
+import styles from "@/styles/contactUs.module.scss";
 import { BannerWithoutSwiper } from "../../components/Banner";
 import { FaFacebookF } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 import { useSelector } from "react-redux";
 import Layout from "../../components/profile/layout";
 import ShippingInput from "../../components/inputs/shippingInput";

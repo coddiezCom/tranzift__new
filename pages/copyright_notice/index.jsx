@@ -1,6 +1,6 @@
 import React from "react";
 // Styles
-import styles from "../../styles/copyright_notice.module.scss";
+import styles from "@/styles/copyright_notice.module.scss";
 // MDX Utility
 import fs from "fs";
 import path from "path";

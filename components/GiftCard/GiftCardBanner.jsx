@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 
 const Index = ({ banner }) => {
   const isMedium = useMediaQuery({ query: "(max-width:850px)" });

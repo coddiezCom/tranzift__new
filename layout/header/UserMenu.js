@@ -12,8 +12,9 @@ import { IoWallet } from "react-icons/io5";
 // Components
 import Register from "../../components/Register";
 import { setCookie, destroyCookie } from "nookies";
-import limitCharacter from ".@/utils/limitCharacter";
+import limitCharacter from "@/utils/limitCharacter";
 export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
+  console.log(userDetail?.firstName + " " + userDetail?.lastName);
   const router = useRouter();
   const dispatch = useDispatch();
   const signOut = () => {
@@ -66,8 +67,8 @@ export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
       {!userDetail.token && <h4>Welcome to tranzift !</h4>}
       {userDetail.token ? (
         <div className={styles.flex}>
-          {/* <Avatar name={userDetail?.firstName} size="40" round={true} /> */}
           <Avatar {...stringAvatar(userDetail?.firstName + " " + userDetail?.lastName)} />
+          {/* <Avatar {...stringAvatar(userDetail?.firstName + " " + userDetail?.lastName)} /> */}
           <div className={styles.col}>
             <span>Welcome </span>
             {/* <h3>{userDetail?.firstName + " " + userDetail?.lastName}</h3> */}

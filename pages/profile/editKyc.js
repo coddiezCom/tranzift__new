@@ -7,7 +7,7 @@ import { useRouter } from "next/router"; // Import the useRouter hook
 import Image from "next/image";
 // icon import
 import { FaEdit } from "react-icons/fa";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 // form import
 import * as Yup from "yup";
 import { Form, Formik, ErrorMessage } from "formik";

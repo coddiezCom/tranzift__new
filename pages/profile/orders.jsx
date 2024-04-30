@@ -8,7 +8,7 @@ import Modal from "@mui/material/Modal";
 import { RxBorderWidth } from "react-icons/rx";
 import dayjs from "dayjs";
 import Layout from "../../components/profile/layout";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 
 const ViewOrderDetailPopup = ({ toggleAddressForm, isToggleAddressForm }) => {
   return (

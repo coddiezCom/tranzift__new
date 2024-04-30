@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 // import styles
-import styles from "../../styles/checkout.module.scss";
+import styles from "@/styles/checkout.module.scss";
 // import react icons
 import { FaCheck } from "react-icons/fa";
 import { LuLoader2 } from "react-icons/lu";
@@ -16,7 +16,7 @@ import { load } from "@cashfreepayments/cashfree-js";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUserDetail } from "../../store/UserSlice";
 // import user api requests
-import apiHelper from ".@/utils/apiHelper";
+import apiHelper from "@/utils/apiHelper";
 // import react icons
 import { FaEdit } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";

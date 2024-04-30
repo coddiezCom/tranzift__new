@@ -11,7 +11,7 @@ import RadioGroup, { useRadioGroup } from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, handleformChange }) => {
   return (
     <>

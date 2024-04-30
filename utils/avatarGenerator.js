@@ -1,9 +1,15 @@
 export function stringAvatar(name) {
+  if (name.split(" ").length > 1) {
+    name = name.split(" ")[0][0] + name.split(" ")[1][0];
+
+  } else {
+    name = name.split(" ")[0][0];
+  }
   return {
     sx: {
       bgcolor: stringToColor(name),
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: `${name.toUpperCase()}`,
   };
 }
 export function stringToColor(string) {

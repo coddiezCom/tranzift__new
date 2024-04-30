@@ -7,7 +7,7 @@ import GiftCardOfferContainer from "./GiftCardOfferContainer";
 // import Mui Components
 import Box from "@mui/material/Box";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, CardImg, formik, handleformChange }) => {
   return (
     <Box

@@ -7,7 +7,7 @@ import Stack from "@mui/joy/Stack";
 import Autocomplete from "@mui/joy/Autocomplete";
 
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 
 const Index = ({ cards }) => {
   // console.log(cards, "cards");

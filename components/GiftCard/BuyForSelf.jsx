@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 const Index = ({ data }) => {
   return (
     <div className={styles.__buyForSelf}>

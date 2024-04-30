@@ -20,7 +20,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { ToastContainer } from "react-toastify";
 
-import apiHelper from ".@/utils/apiHelper";
+import apiHelper from "@/utils/apiHelper";
 import { setGiftCardDetail } from "../../store/GiftCardSlice";
 import GiftCardDetails from "../../components/GiftCard/GiftCardDetails";
 import DeliveryMode from "../../components/GiftCard/DeliveryMode";
@@ -28,7 +28,7 @@ import BuyForSelf from "../../components/GiftCard/BuyForSelf";
 import { SetToggleRegisterPopup } from "../../store/ToggleRegisterPopup";
 import { TfiGift } from "react-icons/tfi";
 import "react-toastify/dist/ReactToastify.css";
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (

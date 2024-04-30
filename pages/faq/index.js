@@ -1,6 +1,6 @@
 import React from "react";
-// import styles from "../../styles/policies.module.scss";
-import styles from "../../styles/faq.module.scss";
+// import styles from "@/styles/policies.module.scss";
+import styles from "@/styles/faq.module.scss";
 import { BannerWithoutSwiper } from "../../components/Banner";
 import { MoreAboutUs } from "../aboutUs";
 const index = () => {

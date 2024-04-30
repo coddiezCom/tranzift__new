@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../../styles/signin.module.scss";
+import styles from "@/styles/signin.module.scss";
 import Image from "next/image";
 // react-icons
 import { AiOutlineClose } from "react-icons/ai";
@@ -18,7 +18,6 @@ import { red, blue } from "@mui/material/colors";
 import * as Yup from "yup"; // Import Yup for validation
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import apiHelper from ".@/utils/apiHelper";
 import { setCookie } from "nookies"; // Import nookies package
 import { useDispatch, useSelector } from "react-redux";
 import { SetUserDetail } from "../../store/UserSlice";
@@ -28,6 +27,7 @@ import FormControl from "@mui/material/FormControl";
 import { useRouter } from "next/router";
 import { SetToggleRegisterPopup } from "../../store/ToggleRegisterPopup";
 import { useMediaQuery } from "react-responsive";
+import apiHelper from "@/utils/apiHelper";
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Invalid email format"),
   password: Yup.string().required("Password is required"),

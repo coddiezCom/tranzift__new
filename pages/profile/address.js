@@ -1,7 +1,7 @@
 // import components
 import Layout from "../../components/profile/layout";
 import Shipping from "../../components/checkout/shipping";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 // import react library
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

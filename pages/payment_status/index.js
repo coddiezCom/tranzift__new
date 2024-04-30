@@ -5,10 +5,10 @@ import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
 // import styles
-import styles from "../../styles/payment_status.module.scss";
+import styles from "@/styles/payment_status.module.scss";
 import { styled } from "@mui/material/styles";
 // import api helper
-import apiHelper from ".@/utils/apiHelper";
+import apiHelper from "@/utils/apiHelper";
 // import dayjs
 import dayjs from "dayjs";
 // import react icons

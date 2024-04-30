@@ -11,7 +11,7 @@ import TextField from "@mui/material/TextField";
 import Textarea from "@mui/joy/Textarea";
 import FormHelperText from "@mui/joy/FormHelperText";
 // import styles
-import styles from "../../styles/gift-card.module.scss";
+import styles from "@/styles/gift-card.module.scss";
 import { SetToggleRegisterPopup } from "../../store/ToggleRegisterPopup";
 const Index = ({ formik, handleformChange }) => {
   const [DeliveryMode, setDeliveryMode] = useState("Email");

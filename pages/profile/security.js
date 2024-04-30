@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
-import styles from "../../styles/profile.module.scss";
+import styles from "@/styles/profile.module.scss";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRouter } from "next/router"; // Import the useRouter hook
