@@ -14,7 +14,6 @@ import Register from "../../components/Register";
 import { setCookie, destroyCookie } from "nookies";
 import limitCharacter from "@/utils/limitCharacter";
 export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
-  console.log(userDetail?.firstName + " " + userDetail?.lastName);
   const router = useRouter();
   const dispatch = useDispatch();
   const signOut = () => {

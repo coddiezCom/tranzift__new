@@ -7,11 +7,13 @@ import Typography from "@mui/material/Typography";
 import styles from "@/styles/gift-card.module.scss";
 
 const Index = ({ card }) => {
-  console.log(card, "GiftCard -> card");
+  // console.log(card, "GiftCard -> card");
   const router = useRouter();
   const handleClick = (productId) => {
-    router.push(`/gift-cards/${productId}`);
+    // router.push(`/gift-cards/${productId}`);
+    router.push(`/gift-cards/gift-card?sku=${productId}`);
   };
+  
   return (
     <>
       <div

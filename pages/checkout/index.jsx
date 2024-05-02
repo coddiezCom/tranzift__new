@@ -697,31 +697,31 @@ const Index = ({}) => {
 };
 
 export default Index;
-export async function getServerSideProps(context) {
-  try {
-    const { query } = context;
-    const gift_card_sku = query?.gift_card;
-    const gift_card_detail = await getGiftCardDetail(gift_card_sku);
-    return {
-      props: {
-        gift_card: gift_card_detail?.GCDetails,
-        gift_card_coupon: gift_card_detail?.availableCoupons,
-        sku: gift_card_sku,
-        error: null, // Set error to null when there is no error
-      },
-    };
-  } catch (error) {
-    console.log("[CHECKOUT_ERROR]:", error);
-    return {
-      props: {
-        gift_card: null, // Set gift_card to null when there is an error
-        sku: null,
-        gift_card_coupon: null,
-        error: error.message || "error occurred",
-      },
-    };
-  }
-}
+// export async function getServerSideProps(context) {
+//   try {
+//     const { query } = context;
+//     const gift_card_sku = query?.gift_card;
+//     const gift_card_detail = await getGiftCardDetail(gift_card_sku);
+//     return {
+//       props: {
+//         gift_card: gift_card_detail?.GCDetails,
+//         gift_card_coupon: gift_card_detail?.availableCoupons,
+//         sku: gift_card_sku,
+//         error: null, // Set error to null when there is no error
+//       },
+//     };
+//   } catch (error) {
+//     console.log("[CHECKOUT_ERROR]:", error);
+//     return {
+//       props: {
+//         gift_card: null, // Set gift_card to null when there is an error
+//         sku: null,
+//         gift_card_coupon: null,
+//         error: error.message || "error occurred",
+//       },
+//     };
+//   }
+// }
 
 // const getGiftCardDetail = (sku) => {
 //   try {

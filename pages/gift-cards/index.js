@@ -125,7 +125,7 @@ const Index = ({}) => {
     laptop_img: "/images/banner/gift_card_banner.jpg",
     tablet_img: "/images/banner/gift_card_banner_Tablet.jpg",
   };
-  console.log(woohooGiftsCardCategories, "woohooGiftsCardCategories");
+  // console.log(woohooGiftsCardCategories, "woohooGiftsCardCategories");
   return (
     <>
       <div className={`${styles.__giftCardContainer} `}>

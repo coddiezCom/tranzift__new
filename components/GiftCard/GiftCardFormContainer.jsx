@@ -31,6 +31,7 @@ const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, han
             >
               <span>Amount: </span>
               <span>
+                {/* need to be fixed */}
                 {card.price.denomination &&
                   card?.price?.denomination?.map((item, index) => {
                     return (

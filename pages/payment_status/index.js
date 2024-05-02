@@ -181,7 +181,10 @@ const PaymentStatus = ({ paymentOrder, error }) => {
       createWoohooOrder(paymentOrderStatus);
     }
   }, []);
-
+  useEffect(() => {
+    
+  }, []);
+  
   const createWoohooOrder = async (payStatus) => {
     try {
       const baseUrl = "woohooproduct/create-order";
@@ -198,7 +201,7 @@ const PaymentStatus = ({ paymentOrder, error }) => {
           {
             code: "svc",
             amount: giftCardDetail?.denomination * giftCardDetail?.quantity,
-            poNumber: "jassi09912",
+            poNumber: "jassi09912", // po Number should be dinamically generated
           },
         ],
         products: [
