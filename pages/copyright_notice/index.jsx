@@ -16,7 +16,7 @@ const index = ({ frontMatter, mdxSource }) => {
     title: {
       enableTypewriter: true,
       typewriter: {
-        words: ["Refund Policy"],
+        words: ["Copyright Notice"],
         loop: true,
         cursorStyle: "|",
         typeSpeed: 110,

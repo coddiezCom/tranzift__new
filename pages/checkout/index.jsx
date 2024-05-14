@@ -547,7 +547,7 @@ export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discoun
 const Index = ({}) => {
   const [giftCardDetails, setGiftCardDetails] = useState({
     gift_card: "",
-    gift_card_coupon: "",
+    gift_card_coupon: [],
     sku: "",
   });
   const router = useRouter();

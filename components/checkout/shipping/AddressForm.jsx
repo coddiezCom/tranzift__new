@@ -5,13 +5,12 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 // import components
-import ShippingInput from "../../inputs/shippingInput";
-import { countries } from "../../../data/countries";
-import SingularSelect from "../../selects/SingularSelect";
+import FormInput from "@/components/inputs/FormInput";
+import { countries } from "@/data/countries";
+import SingularSelect from "@/components/selects/SingularSelect";
 // import react-icons
 import { RxCross1 } from "react-icons/rx";
 const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
-  console.log(address, "address");
   const initialValues = {
     // why there is address in initial values?
     state: address?.state || "",
@@ -21,13 +20,6 @@ const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
     address2: address?.addressLineTwo || "",
     country: address?.country || "",
     addressType: address?.addressType || "",
-    // state: "",
-    // city: "",
-    // zipCode: "",
-    // address1: "",
-    // address2: "",
-    // country: "",
-    // addressType: "",
   };
   const [shipping, setShipping] = useState(initialValues);
   const { state, city, zipCode, address1, address2, country } = shipping;
@@ -73,19 +65,19 @@ const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
           validationSchema={validate}
           onSubmit={() => {
             handleSubmit(shipping);
-            console.log(shipping, "formik -> onSubmit -> shipping",);
+            console.log(shipping, "formik -> onSubmit -> shipping");
           }}
         >
           {(formik) => (
             <Form>
-              <ShippingInput name="address1" placeholder="Address 1" onChange={handleChange} />
-              <ShippingInput name="address2" placeholder="Address 2" onChange={handleChange} />
+              <FormInput name="address1" placeholder="Address 1" onChange={handleChange} />
+              <FormInput name="address2" placeholder="Address 2" onChange={handleChange} />
               <div className={styles.addressForm__row}>
-                <ShippingInput name="city" placeholder="*City" onChange={handleChange} />
-                <ShippingInput name="state" placeholder="*State/Province" onChange={handleChange} />
+                <FormInput name="city" placeholder="*City" onChange={handleChange} />
+                <FormInput name="state" placeholder="*State/Province" onChange={handleChange} />
               </div>
               <div className={styles.addressForm__row}>
-                <ShippingInput name="zipCode" placeholder="*Post/Zip code" onChange={handleChange} />
+                <FormInput name="zipCode" placeholder="*Post/Zip code" onChange={handleChange} />
                 <SingularSelect
                   name="country"
                   value={country}

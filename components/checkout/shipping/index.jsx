@@ -26,10 +26,8 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
   const dispatch = useDispatch();
   const { userDetail } = useSelector((state) => ({ ...state }));
   const router = useRouter();
-
-  // check addresses Array  is less than 1 or empty . saveShippingAddress call when address array length is less than 1 then call handleSelectedAddress and pass the address id as a parameter. else call saveShippingAddress
-  // check where is update function is calling
   const saveShippingHandler = async (shipping) => {
+    // console.log(shipping, "saveShippingHandler -> shippingData");
     const res = await saveAddress(shipping, user);
     try {
       const getAddresses = await getAddress(res.associatedUser);
@@ -100,14 +98,9 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
           </div>
         )}
 
-        <AddressPopup
-          handleSubmit={saveShippingHandler}
-          toggleAddressForm={toggleAddressForm}
-          isToggleAddressForm={isToggleAddressForm}
-        />
+        <AddressPopup handleSubmit={saveShippingHandler} user={user} setAddresses={setAddresses} />
         <div className={`flex flex-wrap items-start w-full ${styles.addresses}`}>
           {addresses?.map((address, index) => {
-            console.log(addresses, "mapping addresses -> addresses");
             return (
               <div
                 style={{ position: "relative" }}
@@ -118,10 +111,10 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
               >
                 <AddressPopup
                   role={"edit"}
+                  user={user}
                   address={address}
                   handleSubmit={UpdateAddress}
-                  toggleAddressForm={toggleAddressForm}
-                  isToggleAddressForm={isToggleAddressForm}
+                  setAddresses={setAddresses}
                 />
                 <div
                   className={`${styles.address__delete} text-gray-400 hover:text-red-700 transition ease-in-out delay-75 `}
@@ -142,10 +135,7 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
                   </div>
 
                   <div className={`${styles.address__col}`}>
-                    <span>
-                      {/* <FaMapMarkerAlt /> */}
-                      {address.addressLineOne}
-                    </span>
+                    <span>{address.addressLineOne}</span>
                     <span>{address.addressLineTwo}</span>
                     <span>
                       {address.city}, {address.state} - {address.pincode}

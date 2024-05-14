@@ -99,8 +99,8 @@ export const PayBillContainer = () => {
       },
     ],
   };
-  const [user, setUser] = useState(initialvalues);
-  const { paytype, fName, lName, phone, email, OurTerms, success, error } = user;
+  const [payBill, setPayBill] = useState(initialvalues);
+  const { paytype, fName, lName, phone, email, OurTerms, success, error } = payBill;
   const [parent, setParent] = useState("");
 
   const validate = Yup.object({
@@ -137,45 +137,61 @@ export const PayBillContainer = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
-    setUser({ ...user, [name]: value });
+    setPayBill({ ...payBill, [name]: value });
   };
   const categories = [
     {
       _id: "65403a8d0cf9cf17853d2b23",
-      name: "Ladies Purse",
-      slug: "ladies-purse",
+      name: "Vendor Payment",
+      slug: "Vendor-Payment",
       createdAt: "2023-10-30T23:21:49.193Z",
       updatedAt: "2023-10-30T23:21:49.193Z",
       __v: 0,
     },
     {
       _id: "62d69f9e60276c9915a995b8",
-      name: "Women Clothing",
-      slug: "women-clothing",
+      name: "House Maintenance",
+      slug: "House-Maintenance",
       createdAt: "2022-07-19T12:12:14.124Z",
       updatedAt: "2022-07-19T12:12:14.124Z",
       __v: 0,
     },
     {
       _id: "62cfeb1e119f0cd432b478d6",
-      name: "Men's Clothing",
-      slug: "men's-clothing",
+      name: "School/College Fees",
+      slug: "School/College-Fees",
       createdAt: "2022-07-14T10:08:30.799Z",
       updatedAt: "2022-07-14T10:08:30.799Z",
       __v: 0,
     },
     {
       _id: "62c46ff0062128444ad59193",
-      name: "Women's Clothing",
-      slug: "women's-clothing",
+      name: "Tuition Fees",
+      slug: "Tuition-Fees",
       createdAt: "2022-07-05T17:08:00.067Z",
       updatedAt: "2022-07-05T17:08:00.067Z",
       __v: 0,
     },
     {
       _id: "62c2bdd58b564896ec16cc6b",
-      name: "Gaming",
-      slug: "gaming",
+      name: "Society Maintenance",
+      slug: "Society-Maintenance",
+      createdAt: "2022-07-04T10:15:49.921Z",
+      updatedAt: "2022-07-04T10:15:49.921Z",
+      __v: 0,
+    },
+    {
+      _id: "62c2bdd58b564896ec16cc6b",
+      name: "Office/Shop Maintenance",
+      slug: "Office/Shop-Maintenance",
+      createdAt: "2022-07-04T10:15:49.921Z",
+      updatedAt: "2022-07-04T10:15:49.921Z",
+      __v: 0,
+    },
+    {
+      _id: "62c2bdd58b564896ec16cc6b",
+      name: "Gst",
+      slug: "Gst",
       createdAt: "2022-07-04T10:15:49.921Z",
       updatedAt: "2022-07-04T10:15:49.921Z",
       __v: 0,
@@ -225,7 +241,9 @@ export const PayBillContainer = () => {
                         value={paytype}
                         data={categories}
                         placeholder="Select Payment Type"
-                        handleChange={(e) => setParent(e.target.value)}
+                        handleChange={(e) => {
+                          setPayBill({ ...payBill, paytype: e.target.value });
+                        }}
                       />
                     </div>
                     <div className={styles.__Fname}>

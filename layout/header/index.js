@@ -162,10 +162,10 @@ export default function Header({ searchHandler }) {
     () => [
       { text: "Home", link: "/" },
       { text: "Gift Cards", link: "/gift-cards", sublinks: [] },
-      { text: "Recharge", link: "/recharge" },
-      { text: "Pay Bill", link: "/pay_bill" },
-      { text: "Offer", link: "/Offers" },
-      { text: "Contact", link: "/contactUs" },
+      // { text: "Recharge", link: "/recharge" },
+      // { text: "Pay Bill", link: "/pay_bill" },
+      { text: "Offer", link: "/offers" },
+      { text: "Contact Us", link: "/contactUs" },
     ],
     []
   );

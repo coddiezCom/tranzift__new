@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import styles from "@/styles/profile.module.scss";
 // import validation liabary
 import * as Yup from "yup";
@@ -9,9 +10,11 @@ import { Form, Formik } from "formik";
 // import react-icons
 import { FaEdit } from "react-icons/fa";
 // import components
-import Layout from "../../components/profile/layout";
-import ShippingInput from "../../components/inputs/shippingInput";
-export function EditProfile({}) {
+import Layout from "@/components/profile/layout";
+import FormInput from "@/components/inputs/FormInput";
+import apiHelper from "@/utils/apiHelper";
+export function EditProfile({ user }) {
+  console.log(user, "user");
   const router = useRouter();
   const tab = router.query.tab || 0; // Accessing tab from query parameters
   const initialValues = {
@@ -19,10 +22,9 @@ export function EditProfile({}) {
     lastName: "",
     email: "",
     phoneNumber: "",
-    zipCode: "",
   };
-  const [shipping, setShipping] = useState(initialValues);
-  const { firstName, lastName, phoneNumber, zipCode, email } = shipping;
+  const [userDetail, setUserDetail] = useState(initialValues);
+  const { firstName, lastName, phoneNumber, zipCode, email } = userDetail;
   const validate = Yup.object({
     firstName: Yup.string()
       .required("First name is required.")
@@ -38,14 +40,27 @@ export function EditProfile({}) {
       .min(3, "Phone number must be atleast 3 characters long.")
       .max(30, "Phone number must be less than 20 characters long."),
     email: Yup.string().email("Email is not valid.").required("Email is required."),
-    zipCode: Yup.string()
-      .required("ZipCode/Postal is required.")
-      .min(2, "ZipCode/Postal should contain 2-30 characters..")
-      .max(30, "ZipCode/Postal should contain 2-30 characters."),
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setShipping({ ...shipping, [name]: value });
+    setUserDetail({ ...userDetail, [name]: value });
+  };
+  const handleSubmit = async (userDetail) => {
+    console.log("handleSubmit is Clicked");
+    try {
+      const baseUrl = "authenticate/updateme";
+      const res = await apiHelper(baseUrl, {}, "PATCH", {
+        firstName: userDetail.firstName,
+        lastName: userDetail.lastName,
+        email: userDetail.email,
+        phoneNo: userDetail.phoneNumber,
+        id: user.user_id,
+      });
+      console.log(res, "response");
+      alert("update success");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={styles.__editProfile__container}>
@@ -61,23 +76,28 @@ export function EditProfile({}) {
             lastName,
             email,
             phoneNumber,
-            zipCode,
           }}
           validationSchema={validate}
-          onSubmit={() => {
-            saveShippingHandler();
+          onSubmit={(e) => {
+            handleSubmit(userDetail);
           }}
         >
           {(formik) => (
             <Form>
-              <ShippingInput name="firstName" placeholder="First Name*" onChange={handleChange} />
-              <ShippingInput name="lastName" placeholder="Last Name*" onChange={handleChange} />
-              <ShippingInput name="phoneNumber" placeholder="Phone number*" onChange={handleChange} />
-              <ShippingInput name="email" placeholder="Email ID*" onChange={handleChange} />
-              <ShippingInput name="zipCode" placeholder="*PIN code*" onChange={handleChange} />
+              <FormInput name="firstName" placeholder="First Name*" onChange={handleChange} />
+              <FormInput name="lastName" placeholder="Last Name*" onChange={handleChange} />
+              <FormInput name="phoneNumber" placeholder="Phone number*" onChange={handleChange} />
+              <FormInput name="email" placeholder="Email ID*" onChange={handleChange} />
+              <button
+                type="submit"
+                onClick={() => console.log(formik)}
+                className={`shadow-md px-1 py-2 text-sm font-bold bg-[#6176fe] w-24 text-[#fff] shadow-gray-500 transition delay-200  rounded-md  hover:bg-[#6176fe] hover:text-[#fff] `}
+              >
+                Save
+              </button>
+              {/* <button type="submit" className="hover:bg-red-500">Save Changes</button> */}
               <span>
-                <button type="submit">Save Changes</button>
-                <button type="submit">cancel</button>
+                <button>cancel</button>
               </span>
             </Form>
           )}
@@ -87,11 +107,12 @@ export function EditProfile({}) {
   );
 }
 const editProfile = ({ user }) => {
+  const userData = useSelector((state) => state.userDetail);
   const router = useRouter();
   const tab = router.query.tab || 0; // Accessing tab from query parameters
   return (
-    <Layout session={user?.user} tab={tab}>
-      <EditProfile user={user} />
+    <Layout session={userData} tab={tab}>
+      <EditProfile user={userData} />
     </Layout>
   );
 };

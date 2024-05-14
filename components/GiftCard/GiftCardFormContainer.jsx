@@ -13,6 +13,7 @@ import Radio from "@mui/material/Radio";
 // import styles
 import styles from "@/styles/gift-card.module.scss";
 const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, handleformChange }) => {
+  console.log(card,"cards")
   return (
     <>
       <Box
@@ -22,7 +23,7 @@ const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, han
           handleSubmit();
         }}
       >
-        {card?.price?.type == "FIXED" ? (
+        {card?.price?.cpg.SGD?.type == "SLAB" ? (
           <>
             <Typography
               component="p"

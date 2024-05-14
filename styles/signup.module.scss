@@ -1,0 +1,168 @@
+
+
+.__container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 1em;
+  overflow: hidden;
+  position: relative;
+  &__form {
+    position: relative;
+    z-index: 5;
+    padding: 2em 0;
+    width: 50%;
+    height: 100%;
+    gap: 1.3em;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &__icon {
+    }
+    &__heading {
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: auto;
+      form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        > div {
+          &:nth-of-type(1) {
+            width: 49%;
+          }
+          &:nth-of-type(2) {
+            width: 49%;
+          }
+          &:nth-of-type(3) {
+            width: 49%;
+          }
+          &:nth-of-type(4) {
+            width: 49%;
+          }
+          &:nth-of-type(5) {
+            width: 100%;
+          }
+          &:nth-of-type(6) {
+            width: 100%;
+          }
+        }
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+  &__sideBar {
+    width: 50%;
+    position: relative;
+    &__wrapper {
+      height: 100%;
+      background-color: white;
+      &__bgImg {
+        position: absolute;
+        background: url("/images/background/BgTexture1.jpeg");
+        opacity: 0.3;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 7;
+      }
+      &__content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 1em;
+        position: relative;
+        z-index: 9;
+        .icon {
+          a {
+            img {
+            }
+          }
+        }
+        .welcomeMessage {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+          > h3 {
+          }
+          > p {
+            padding-bottom: 0.5em;
+          }
+          > a {
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+}
+@media screen and (max-width: 1024px) {
+}
+@media screen and (max-width: 968px) {
+}
+@media screen and (max-width: 768px) {
+  .__container {
+    &__form {
+      width: 100%;
+    }
+    &__sideBar {
+      border: 2px solid red;
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 424px) {
+  .__container__form__wrapper {
+    form {
+        > div {
+            &:nth-of-type(1) {
+              width: 100%;
+            }
+            &:nth-of-type(2) {
+              width: 100%;
+            }
+            &:nth-of-type(3) {
+              width: 100%;
+            }
+            &:nth-of-type(4) {
+              width: 100%;
+            }
+            &:nth-of-type(5) {
+              width: 100%;
+            }
+            &:nth-of-type(6) {
+              width: 100%;
+            }
+          }
+          button {
+            width: 100%;
+          }
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .__container {
+    &__sideBar {
+    }
+  }
+}
+
+
+

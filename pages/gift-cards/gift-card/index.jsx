@@ -73,15 +73,6 @@ function MyFormControlLabel(props) {
   }
   return <StyledFormControlLabel checked={checked} {...props} />;
 }
-
-// function MyFormControlLabel(props) {
-//   const radioGroup = useRadioGroup();
-
-//   const checked = radioGroup ? radioGroup.value === props.value : false;
-
-//   return <StyledFormControlLabel checked={checked} {...props} />;
-// }
-
 MyFormControlLabel.propTypes = {
   /**
    * The value of the component.

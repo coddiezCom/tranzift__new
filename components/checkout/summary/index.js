@@ -2,8 +2,8 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import ShippingInput from "../../inputs/shippingInput";
-import { applyCoupon } from "../../../requests/user";
+import FormInput from "@/components/inputs/FormInput";
+import { applyCoupon } from "@/requests/user";
 import axios from "axios";
 import Router from "next/router";
 export default function Summary({
@@ -71,7 +71,7 @@ export default function Summary({
         >
           {(formik) => (
             <Form>
-              <ShippingInput
+              <FormInput
                 name="coupon"
                 placeholder="*Coupon"
                 onChange={(e) => setCoupon(e.target.value)}

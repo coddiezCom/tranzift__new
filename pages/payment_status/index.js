@@ -161,7 +161,15 @@ export function PaymentStatusCard({ paymentResponseData }) {
     </>
   );
 }
-
+const getPaymentOrderDetail = async (orderId) => {
+  try {
+    const baseUrl = `payment/getorderstatus/${orderId}`;
+    const orderResponse = await apiHelper(baseUrl);
+    return orderResponse;
+  } catch (error) {
+    return error;
+  }
+};
 const PaymentStatus = ({ paymentOrder, error }) => {
   const router = useRouter();
   const paymentResponseData = {
@@ -175,16 +183,28 @@ const PaymentStatus = ({ paymentOrder, error }) => {
   const userDetail = useSelector((state) => state.userDetail);
   const giftCardDetail = useSelector((state) => state.giftCardDetail);
   const paymentOrderStatus = paymentOrder?.orderDetails?.order_status;
-
+  const [paymentOrder, setPaymentOrder] = useState({});
+  const [error, setError] = useState(null);
+  const orderId = router.query.order_id;
+  console.log("router.query.order_id", router.query.order_id);
   useEffect(() => {
     if (paymentOrderStatus === "PAID" || paymentOrderStatus === "ACTIVE") {
       createWoohooOrder(paymentOrderStatus);
     }
   }, []);
   useEffect(() => {
-    
-  }, []);
-  
+    const getGaymentOrderStatusData = async () => {
+      try {
+        const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
+        setPaymentOrder(paymentOrderStatusData.data);
+      } catch (error) {
+        setPaymentOrder(null);
+        setError(error.message || "An error occurred");
+      }
+    };
+    getGaymentOrderStatusData();
+  }, [orderId]);
+
   const createWoohooOrder = async (payStatus) => {
     try {
       const baseUrl = "woohooproduct/create-order";
@@ -272,35 +292,25 @@ function GiftIcon(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  try {
-    const { query } = context;
-    const orderId = query.order_id;
-    const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
-    return {
-      props: {
-        paymentOrder: paymentOrderStatusData.data,
-        error: null,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        paymentOrder: null,
-        error: {
-          message: error.message || "An error occurred",
-        },
-      },
-    };
-  }
-}
-
-const getPaymentOrderDetail = async (orderId) => {
-  try {
-    const baseUrl = `payment/getorderstatus/${orderId}`;
-    const orderResponse = await apiHelper(baseUrl);
-    return orderResponse;
-  } catch (error) {
-    return error;
-  }
-};
+// export async function npm (context) {
+//   try {
+//     const { query } = context;
+//     const orderId = query.order_id;
+//     const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
+//     return {
+//       props: {
+//         paymentOrder: paymentOrderStatusData.data,
+//         error: null,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         paymentOrder: null,
+//         error: {
+//           message: error.message || "An error occurred",
+//         },
+//       },
+//     };
+//   }
+// }

@@ -10,8 +10,9 @@ import { AiFillYoutube } from "react-icons/ai";
 import LoginInput from "../../components/inputs/loginInput";
 import CircledIconBtn from "../../components/buttons/circledIconBtn";
 import { Form, Formik } from "formik";
-import Card from "@mui/material/Card";
-
+import Card from "@mui/material/Card"; 
+import apiHelper from "@/utils/apiHelper";
+import { toast } from "react-toastify";
 export const ContactUsForm = ({ heading }) => {
   const initialvalues = {
     name: "",
@@ -35,7 +36,7 @@ export const ContactUsForm = ({ heading }) => {
       .max(16, "Name must be between 2 and 16 characters.")
       .matches(/^[aA-zZ]+$/, "Only letters are allowed in the name."),
     email: Yup.string().required("Please enter your email address.").email("Enter a valid email address."),
-    phoneNumber: Yup.number()
+    phoneNumber: Yup.string()
       .required("Phone number is required.")
       .min(3, "Phone number must be at least 3 characters long.")
       .max(30, "Phone number must be less than 30 characters long."),
@@ -44,6 +45,39 @@ export const ContactUsForm = ({ heading }) => {
       .min(5, "Message must be at least 5 characters long.")
       .max(100, "Message must be less than 100 characters long."),
   });
+  const handleSubmit = () => {
+    const baseUrl = "contactus/contact-us";
+    try {
+      const data = apiHelper(baseUrl, {}, "Post", {
+        name,
+        email,
+        phone: phoneNumber,
+        message,
+      });
+      toast.success(`successfully sent`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setUser(initialvalues);
+    } catch (error) {
+      toast.error(`failed`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
   return (
     <Card className={styles.__form}>
       <div className={styles.__form__header}>
@@ -59,9 +93,7 @@ export const ContactUsForm = ({ heading }) => {
           message,
         }}
         validationSchema={formValidation}
-        onSubmit={() => {
-          // console.log("hii");
-        }}
+        onSubmit={handleSubmit}
       >
         {(form) => (
           <Form>

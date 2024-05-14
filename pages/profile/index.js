@@ -10,7 +10,7 @@ import styles from "@/styles/profile.module.scss";
 import { FaEdit } from "react-icons/fa";
 
 export function UserProfile({ user }) {
-  // console.log(user, "user");
+  console.log(user, "user");
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -35,6 +35,10 @@ export function UserProfile({ user }) {
     {
       name: "Mobile No.",
       value: user?.phone || "---",
+    },
+    {
+      name: "Date of birth",
+      value: user?.dob || "---",
     },
   ];
   return (

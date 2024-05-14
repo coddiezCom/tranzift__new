@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "@/styles/profile.module.scss";
 import { useSelector } from "react-redux";
 import Layout from "../../components/profile/layout";
-import ShippingInput from "../../components/inputs/shippingInput";
+import FormInput from "@/components/inputs/FormInput";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { FaEdit, FaSort, FaFilter } from "react-icons/fa";

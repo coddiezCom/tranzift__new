@@ -1,4 +1,3 @@
-// react import
 import React from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,8 +11,8 @@ import styles from "@/styles/profile.module.scss";
 import * as Yup from "yup";
 import { Form, Formik, ErrorMessage } from "formik";
 // component import
-import Layout from "../../components/profile/layout";
-import ShippingInput from "../../components/inputs/shippingInput";
+import Layout from "@/components/profile/layout";
+import FormInput from "@/components/inputs/FormInput";
 
 export function EditKyc({}) {
   const initialValues = {
@@ -96,7 +95,7 @@ export function EditKyc({}) {
             <Form>
               <div>
                 <span>
-                  <ShippingInput name="aadhaar" placeholder="Aadhaar Number*" type={"number"} onChange={handleChange} />
+                  <FormInput name="aadhaar" placeholder="Aadhaar Number*" type={"number"} onChange={handleChange} />
                   <input name="aadhaar_url" type="file" onChange={handleChange} />
                   <ErrorMessage name="aadhaar_url" component="div" className="error" />
                 </span>
@@ -108,7 +107,7 @@ export function EditKyc({}) {
               </div>
               <div>
                 <span>
-                  <ShippingInput name="pan" placeholder="PAN Number*" onChange={handleChange} />
+                  <FormInput name="pan" placeholder="PAN Number*" onChange={handleChange} />
                   <input name="pan_url" type="file" onChange={handleChange} />
                   <ErrorMessage name="pan_url" component="div" className="error" />
                 </span>

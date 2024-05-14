@@ -1,460 +1,581 @@
-.registerBtn {
-  cursor: pointer;
-  width: 100%;
-  border-radius: 0.1em;
-  border: 2px solid $blue-1;
-  padding: 0.2em 0.4em;
-  border-radius: 0.4em;
-  color: $blue-1;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  transition: ease-in-out 1s;
-  &:hover {
-    background-color: $blue-1;
-    color: white;
-    text-decoration: underline;
-  }
-}
-.LoginForm {
-  > div,
-  > button {
-    width: 80%;
-  }
-}
-.mainContainer {
+.__container {
+  // border: 2px solid black;
+  border-radius: 1em;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  border-radius: 1em;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
   width: 100%;
-  height: 100%;
-  overflow: scroll;
-  .__overlay {
+  position: relative;
+  z-index: 1;
+  &::after {
+    content: "";
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: transparent;
-    /* background-color: rgb(198, 198, 198); */
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    z-index: 99;
+    background-image: url("/images/background/BgTexture1.jpeg");
+    opacity: 0.9; 
+    border-radius: 0.5em;
+    z-index: -1;
   }
-}
-.container {
-  z-index: 100;
-  display: flex;
-  flex-direction: row;
-  max-width: 1200px;
-
-  width: 80%;
-  min-height: 80%;
-  margin: auto;
-  position: relative;
-  .closeIcon {
-    position: absolute;
-    right: 17px;
-    padding: 1em;
-    z-index: 99;
-    font-size: 1.3em;
-    svg {
-      font-size: 1.3em;
-      font-weight: 600;
-    }
-  }
-  // LoginForm
-  .__container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    border-radius: 1em;
-    // overflow: hidden;
-    .formContainer {
-      padding: 2em 0;
-      width: 50%;
-      // min-height: 80vh;
-      height: 100%;
-      gap: 1.3em;
-      background-color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      .formHeader {
-        h3 {
-        }
-      }
-    }
-    .sideBarContainer {
-      width: 50%;
-      height: 100%;
-      position: relative;
-      .sideBar {
-        height: 100%;
-        background-color: white;
-        .bgImage {
-          position: absolute;
-          background: url("/images/background/BgTexture1.jpeg");
-          opacity: 0.3;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          z-index: 7;
-        }
-        .sideBarContent {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          gap: 1em;
-          position: relative;
-          z-index: 9;
-          .iconContainer {
-            a {
-            }
-          }
-          .welcomeMessage {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5em;
-            > h3 {
-            }
-            > p {
-              padding-bottom: 0.5em;
-            }
-            > a {
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.signUpContainer {
-  .formContainer {
+  &__leftContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .formHeader {
+    // border: 2px solid yellow;
+    padding: 2em 4em;
+    width: 50%;
+    background-color: white;
+    // min-height: 80vh;
+    // height: 100%;
+    gap: 2em;
+    // margin: 1em 0em;
+    // background-color: white;
+    &__formHeader {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      // border: 2px solid red;
       width: 100%;
-    }
-    .signUpForm {
-      width: 90%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      flex-wrap: wrap;
-
-      > div,
-      button {
-        width: 100%;
-      }
-      > div {
-        &:nth-child(1) {
-          width: 48%;
-        }
-        &:nth-child(2) {
-          width: 49%;
-        }
-        &:nth-child(3) {
-          width: 100%;
-        }
-        &:nth-child(4) {
-          width: 100%;
-        }
-        &:nth-child(5) {
-          width: 100%;
-        }
-      }
-    }
-  }
-  .sideBarContainer {
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .signUpContainer {
-    .formContainer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .formHeader {
-        width: 100%;
-      }
-      .signUpForm {
-        width: 93%;
+      gap: 0.5em;
+      &__iconContainer {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
 
-        > div,
-        button {
-          width: 100%;
+        &__icon {
         }
-        > div {
-          &:nth-child(1) {
-            width: 48%;
-          }
-          &:nth-child(2) {
-            width: 49%;
-          }
-          &:nth-child(3) {
-            width: 100%;
-          }
-          &:nth-child(4) {
-            width: 100%;
-          }
-          &:nth-child(5) {
-            width: 100%;
-          }
+        &__heading {
         }
       }
     }
-    .sideBarContainer {
-    }
-  }
-}
-@media screen and (max-width: 1024px) {
-  .signUpContainer {
-    .formContainer {
+    &__formContainer {
+      // border: 2px solid blue;
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      .formHeader {
+      &__form {
         width: 100%;
+        // border: 2px solid green;
       }
-      .signUpForm {
-        width: 93%;
+      &__link {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-
-        > div,
-        button {
-          width: 100%;
-        }
-        > div {
-          &:nth-child(1) {
-            width: 48%;
-          }
-          &:nth-child(2) {
-            width: 49%;
-          }
-          &:nth-child(3) {
-            width: 100%;
-          }
-          &:nth-child(4) {
-            width: 100%;
-          }
-          &:nth-child(5) {
-            width: 100%;
-          }
-        }
-      }
-    }
-    .sideBarContainer {
-    }
-  }
-}
-@media screen and (max-width: 968px) {
-}
-@media screen and (max-width: 768px) {
-  .signUpContainer {
-    .formContainer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .formHeader {
+        padding-left: 0.5em;
+        margin: 0.5em;
+        gap: 1em;
         width: 100%;
       }
-      .signUpForm {
+      &__formBtn {
         width: 80%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-
-        > div,
-        button {
-          width: 100%;
-        }
-        > div {
-          &:nth-child(1) {
-            width: 48.5%;
-          }
-          &:nth-child(2) {
-            width: 48.5%;
-          }
-          &:nth-child(3) {
-            width: 100%;
-          }
-          &:nth-child(4) {
-            width: 100%;
-          }
-          &:nth-child(5) {
-            width: 100%;
-          }
-        }
       }
     }
-    .sideBarContainer {
-    }
   }
-  .container {
-    width: 80%;
-    .closeIcon {
-      position: absolute;
+  &__rightContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background: url("/images/background/BgTexture1.jpeg");
+    height: 100%;
+    width: 50%;
+    // border: 2px solid green;
+    &__bg {
+      // border: 2px solid black;
     }
-    // LoginForm
-    // LoginForm
-    .__container {
+    &__content {
       display: flex;
-      flex-direction: row;
-      width: 100%;
-      border-radius: 1em;
-      overflow: hidden;
-      position: relative;
-      .formContainer {
-        position: relative;
-        z-index: 5;
-        padding: 2em 0;
-        width: 100%;
-        // min-height: 55vh;
-        height: 100%;
-        gap: 1.3em;
-        // background-color: white;
+      flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
+      gap: 1em;
+      // border: 2px solid red;
+      &__iconContainer {
+        // border: 2px solid blue;
+      }
+      &__signUpContainer {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        &::after {
-          background: url("/images/background/BgTexture1.jpeg");
-          content: "";
-          position: absolute;
-          opacity: 0.3;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
+        align-items: center;
+        // border: 2px solid red;
+        &__btn {
+          margin-top: 5em;
         }
-        .formHeader {
-          h3 {
-          }
-        }
-      }
-      .sideBarContainer {
-        display: none;
+        // border: 2px solid red;
       }
     }
   }
 }
 
-@media screen and (max-width: 600px) {
-  .container {
-    width: 100%;
-    .closeIcon {
-      position: absolute;
-    }
-    // LoginForm
-    // LoginForm
-    // .container {
-    //   width: 80%;
-    //   .closeIcon {
-    //     position: absolute;
-    //   }
-    //   // LoginForm
-    //   // LoginForm
-    //   .__container {
-    //     display: flex;
-    //     flex-direction: row;
-    //     width: 100%;
-    //     border-radius: 1em;
-    //     overflow: hidden;
-    //     position: relative;
-    //     .formContainer {
-    //       position: relative;
-    //       z-index: 5;
-    //       padding: 2em 0;
-    //       width: 100%;
-    //       min-height: 55vh;
-    //       height: 100%;
-    //       gap: 1.3em;
-    //       // background-color: white;
-    //       display: flex;
-    //       flex-direction: column;
-    //       justify-content: center;
-    //       &::after {
-    //         background: url("/images/background/BgTexture1.jpeg");
-    //         content: "";
-    //         position: absolute;
-    //         opacity: 0.3;
-    //         width: 100%;
-    //         height: 100%;
-    //         z-index: -1;
-    //       }
-    //       .formHeader {
-    //         h3 {
-    //         }
-    //       }
-    //     }
-    //     .sideBarContainer {
-    //       display: none;
-    //     }
-    //   }
-    // }
-  }
-  .signUpContainer {
-    .formContainer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .formHeader {
-        width: 100%;
-      }
-      .signUpForm {
-        width: 90%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+// .registerBtn {
+//   cursor: pointer;
+//   width: 100%;
+//   border-radius: 0.1em;
+//   border: 2px solid $blue-1;
+//   padding: 0.2em 0.4em;
+//   border-radius: 0.4em;
+//   color: $blue-1;
+//   font-weight: 600;
+//   display: flex;
+//   justify-content: center;
+//   transition: ease-in-out 1s;
+//   &__:hover {
+//     background-color: $blue-1;
+//     color: white;
+//     text-decoration: underline;
+//   }
+// }
 
-        > div,
-        button {
-          width: 100%;
-        }
-        > div {
-          &:nth-child(1) {
-            width: 100%;
-          }
-          &:nth-child(2) {
-            width: 100%;
-          }
-          &:nth-child(3) {
-            width: 100%;
-          }
-          &:nth-child(4) {
-            width: 100%;
-          }
-          &:nth-child(5) {
-            width: 100%;
-          }
-        }
-      }
-    }
-    .sideBarContainer {
-    }
-  }
-}
-@media screen and (max-width: 480px) {
-}
-@media screen and (max-width: 320px) {
-}
+// .LoginForm {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   > div,
+//   > button {
+//     width: 80%;
+//   }
+// }
+// .mainContainer {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   align-items: center;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 9999;
+//   width: 100%;
+//   height: 100%;
+//   overflow: scroll;
+//   .__overlay {
+//     position: absolute;
+//     width: 100%;
+//     height: 100%;
+//     background: transparent;
+//     /* background-color: rgb(198, 198, 198); */
+//     backdrop-filter: blur(3px);
+//     -webkit-backdrop-filter: blur(3px);
+//     z-index: 99;
+//   }
+// }
+// .container {
+//   z-index: 100;
+//   display: flex;
+//   flex-direction: row;
+//   max-width: 1200px;
+
+//   width: 80%;
+//   min-height: 80%;
+//   margin: auto;
+//   position: relative;
+//   .closeIcon {
+//     position: absolute;
+//     right: 17px;
+//     padding: 1em;
+//     z-index: 99;
+//     font-size: 1.3em;
+//     svg {
+//       font-size: 1.3em;
+//       font-weight: 600;
+//     }
+//   }
+//   // LoginForm
+//   .__container {
+//     display: flex;
+//     flex-direction: row;
+//     width: 100%;
+//     border-radius: 1em;
+//     // overflow: hidden;
+//     .formContainer {
+//       padding: 2em 0;
+//       width: 50%;
+//       // min-height: 80vh;
+//       height: 100%;
+//       gap: 1.3em;
+//       background-color: white;
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       .formHeader {
+//         h3 {
+//         }
+//       }
+//     }
+//     .sideBarContainer {
+//       width: 50%;
+//       height: 100%;
+//       position: relative;
+//       .sideBar {
+//         height: 100%;
+//         background-color: white;
+//         .bgImage {
+//           position: absolute;
+//           background: url("/images/background/BgTexture1.jpeg");
+//           opacity: 0.3;
+//           width: 100%;
+//           height: 100%;
+//           top: 0;
+//           left: 0;
+//           z-index: 7;
+//         }
+//         .sideBarContent {
+//           height: 100%;
+//           display: flex;
+//           flex-direction: column;
+//           align-items: center;
+//           justify-content: center;
+//           text-align: center;
+//           gap: 1em;
+//           position: relative;
+//           z-index: 9;
+//           .iconContainer {
+//             a {
+//             }
+//           }
+//           .welcomeMessage {
+//             display: flex;
+//             flex-direction: column;
+//             gap: 0.5em;
+//             > h3 {
+//             }
+//             > p {
+//               padding-bottom: 0.5em;
+//             }
+//             > a {
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// .signUpContainer {
+//   .formContainer {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     .formHeader {
+//       width: 100%;
+//     }
+//     .signUpForm {
+//       width: 90%;
+//       display: flex;
+//       flex-direction: row;
+//       justify-content: space-between;
+//       flex-wrap: wrap;
+
+//       > div,
+//       button {
+//         width: 100%;
+//       }
+//       > div {
+//         &__:nth-child(1) {
+//           width: 48%;
+//         }
+//         &__:nth-child(2) {
+//           width: 49%;
+//         }
+//         &__:nth-child(3) {
+//           width: 100%;
+//         }
+//         &__:nth-child(4) {
+//           width: 100%;
+//         }
+//         &__:nth-child(5) {
+//           width: 100%;
+//         }
+//       }
+//     }
+//   }
+//   .sideBarContainer {
+//   }
+// }
+
+// @media screen and (max-width: 1200px) {
+//   .signUpContainer {
+//     .formContainer {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       .formHeader {
+//         width: 100%;
+//       }
+//       .signUpForm {
+//         width: 93%;
+//         display: flex;
+//         flex-direction: row;
+//         flex-wrap: wrap;
+
+//         > div,
+//         button {
+//           width: 100%;
+//         }
+//         > div {
+//           &__:nth-child(1) {
+//             width: 48%;
+//           }
+//           &__:nth-child(2) {
+//             width: 49%;
+//           }
+//           &__:nth-child(3) {
+//             width: 100%;
+//           }
+//           &__:nth-child(4) {
+//             width: 100%;
+//           }
+//           &__:nth-child(5) {
+//             width: 100%;
+//           }
+//         }
+//       }
+//     }
+//     .sideBarContainer {
+//     }
+//   }
+// }
+// @media screen and (max-width: 1024px) {
+//   .signUpContainer {
+//     .formContainer {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       .formHeader {
+//         width: 100%;
+//       }
+//       .signUpForm {
+//         width: 93%;
+//         display: flex;
+//         flex-direction: row;
+//         flex-wrap: wrap;
+
+//         > div,
+//         button {
+//           width: 100%;
+//         }
+//         > div {
+//           &__:nth-child(1) {
+//             width: 48%;
+//           }
+//           &__:nth-child(2) {
+//             width: 49%;
+//           }
+//           &__:nth-child(3) {
+//             width: 100%;
+//           }
+//           &__:nth-child(4) {
+//             width: 100%;
+//           }
+//           &__:nth-child(5) {
+//             width: 100%;
+//           }
+//         }
+//       }
+//     }
+//     .sideBarContainer {
+//     }
+//   }
+// }
+// @media screen and (max-width: 968px) {
+// }
+// @media screen and (max-width: 768px) {
+//   .signUpContainer {
+//     .formContainer {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       .formHeader {
+//         width: 100%;
+//       }
+//       .signUpForm {
+//         width: 80%;
+//         display: flex;
+//         flex-direction: row;
+//         flex-wrap: wrap;
+
+//         > div,
+//         button {
+//           width: 100%;
+//         }
+//         > div {
+//           &__:nth-child(1) {
+//             width: 48.5%;
+//           }
+//           &__:nth-child(2) {
+//             width: 48.5%;
+//           }
+//           &__:nth-child(3) {
+//             width: 100%;
+//           }
+//           &__:nth-child(4) {
+//             width: 100%;
+//           }
+//           &__:nth-child(5) {
+//             width: 100%;
+//           }
+//         }
+//       }
+//     }
+//     .sideBarContainer {
+//     }
+//   }
+//   .container {
+//     width: 80%;
+//     .closeIcon {
+//       position: absolute;
+//     }
+//     // LoginForm
+//     // LoginForm
+//     .__container {
+//       display: flex;
+//       flex-direction: row;
+//       width: 100%;
+//       border-radius: 1em;
+//       overflow: hidden;
+//       position: relative;
+//       .formContainer {
+//         position: relative;
+//         z-index: 5;
+//         padding: 2em 0;
+//         width: 100%;
+//         // min-height: 55vh;
+//         height: 100%;
+//         gap: 1.3em;
+//         // background-color: white;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: center;
+//         &__::after {
+//           background: url("/images/background/BgTexture1.jpeg");
+//           content: "";
+//           position: absolute;
+//           opacity: 0.3;
+//           width: 100%;
+//           height: 100%;
+//           z-index: -1;
+//         }
+//         .formHeader {
+//           h3 {
+//           }
+//         }
+//       }
+//       .sideBarContainer {
+//         display: none;
+//       }
+//     }
+//   }
+// }
+
+// @media screen and (max-width: 600px) {
+//   .container {
+//     width: 100%;
+//     .closeIcon {
+//       position: absolute;
+//     }
+//     // LoginForm
+//     // LoginForm
+//     // .container {
+//     //   width: 80%;
+//     //   .closeIcon {
+//     //     position: absolute;
+//     //   }
+//     //   // LoginForm
+//     //   // LoginForm
+//     //   .__container {
+//     //     display: flex;
+//     //     flex-direction: row;
+//     //     width: 100%;
+//     //     border-radius: 1em;
+//     //     overflow: hidden;
+//     //     position: relative;
+//     //     .formContainer {
+//     //       position: relative;
+//     //       z-index: 5;
+//     //       padding: 2em 0;
+//     //       width: 100%;
+//     //       min-height: 55vh;
+//     //       height: 100%;
+//     //       gap: 1.3em;
+//     //       // background-color: white;
+//     //       display: flex;
+//     //       flex-direction: column;
+//     //       justify-content: center;
+//     //       &__::after {
+//     //         background: url("/images/background/BgTexture1.jpeg");
+//     //         content: "";
+//     //         position: absolute;
+//     //         opacity: 0.3;
+//     //         width: 100%;
+//     //         height: 100%;
+//     //         z-index: -1;
+//     //       }
+//     //       .formHeader {
+//     //         h3 {
+//     //         }
+//     //       }
+//     //     }
+//     //     .sideBarContainer {
+//     //       display: none;
+//     //     }
+//     //   }
+//     // }
+//   }
+//   .signUpContainer {
+//     .formContainer {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       .formHeader {
+//         width: 100%;
+//       }
+//       .signUpForm {
+//         width: 90%;
+//         display: flex;
+//         flex-direction: row;
+//         flex-wrap: wrap;
+
+//         > div,
+//         button {
+//           width: 100%;
+//         }
+//         > div {
+//           &__:nth-child(1) {
+//             width: 100%;
+//           }
+//           &__:nth-child(2) {
+//             width: 100%;
+//           }
+//           &__:nth-child(3) {
+//             width: 100%;
+//           }
+//           &__:nth-child(4) {
+//             width: 100%;
+//           }
+//           &__:nth-child(5) {
+//             width: 100%;
+//           }
+//         }
+//       }
+//     }
+//     .sideBarContainer {
+//     }
+//   }
+// }
+// @media screen and (max-width: 480px) {
+// }
+// @media screen and (max-width: 320px) {
+// }

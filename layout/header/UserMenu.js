@@ -45,11 +45,11 @@ export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
       name: "My Orders",
       link: "/profile/orders",
     },
-    {
-      icon: <IoWallet />,
-      name: "Wallet",
-      link: "/profile/wallet",
-    },
+    // {
+    //   icon: <IoWallet />,
+    //   name: "Wallet",
+    //   link: "/profile/wallet",
+    // },
     {
       icon: <FaMapMarkerAlt />,
       name: "Manage Address",

@@ -18,7 +18,7 @@ export default function Sidebar({ data, handleSideBar }) {
           <RxCross2 />
         </div>
         <div className={styles.sidebar__container}>
-          <Avatar {...stringAvatar(data?.firstName.toUpperCase() + " " + data?.lastName.toUpperCase())} />
+          <Avatar {...stringAvatar(data?.firstName?.toUpperCase() + " " + data?.lastName?.toUpperCase())} />
           <span className={styles.sidebar__name}>{data?.firstName + " " + data?.lastName}</span>
           <ul>
             {sidebarData?.map((item, i) => (

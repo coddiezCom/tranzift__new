@@ -60,11 +60,11 @@ export const sidebarData = [
       },
     ],
   },
-  {
-    heading: "My Wallet",
-    icon: <IoWallet />,
-    link: "/profile/wallet",
-  },
+  // {
+  //   heading: "My Wallet",
+  //   icon: <IoWallet />,
+  //   link: "/profile/wallet",
+  // },
   {
     heading: "Sign out",
     link: [],
