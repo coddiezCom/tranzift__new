@@ -43,7 +43,6 @@ export default function Shipping({ profile }) {
   }, [UserDetail?.user_id]);
 
   const fetchDefaultAddressById = async () => {
-    // defaultAddress nhi h kyu ki defaultAddress set hi nahi kiya
     const baseUrl = `address/address/${UserDetail?.defaultAddress}`;
     console.log(UserDetail);
     console.log(baseUrl, "fetchAddressById -> baseUrl");
@@ -99,15 +98,6 @@ export default function Shipping({ profile }) {
     }
 
     fetchAddresses();
-
-    // try {
-    //   const getAddresses = await apiHelper(getAddressBaseUrl, {}, "GET");
-    //   console.log(getAddresses, "getAddresses");
-    //   setAddresses(getAddresses?.addresses);
-    // } catch (error) {
-    //   console.log("[SHIPING_PAGE]", error);
-    //   throw new Error(" address could not be fetched ", error);
-    // }
   };
 
   const handleSelectedAddress = async (addressId) => {
@@ -191,18 +181,6 @@ export default function Shipping({ profile }) {
                 }   transition ease-in-out duration-700`}
                 key={index}
               >
-                {/* <div className="border-2 border-green-600 ">
-                  <AddressPopup
-                    role={"edit"}
-                    UserDetail={UserDetail}
-                    address={address}
-                    // handleSubmit={UpdateAddress}
-                    setAddresses={setAddresses}
-                    setIsToggleAddressForm={setIsToggleAddressForm}
-                    isToggleAddressForm={isToggleAddressForm}
-                  />
-                </div> */}
-
                 <div
                   className={`${styles.address} ${address.active && styles.active} ${
                     UserDetail?.defaultAddress === address._id ? "shadow-inner shadow-[#6176fe]   " : "shadow-md  "
