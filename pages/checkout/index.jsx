@@ -44,8 +44,9 @@ export const ProductDetailLayout = ({
   handleBillingAddress,
   setIsToggleAddressForm,
   isToggleAddressForm,
+  setPopupRole
 }) => {
-  console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress });
+  console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress, setPopupRole });
   return (
     <div className="w-full flex flex-col gap-3 border-2 border-red-900 ">
       {useFor != "billing" ? (
@@ -58,20 +59,24 @@ export const ProductDetailLayout = ({
           <span
             className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
             onClick={() => {
-              // const type = billingAddressExist ? "edit" : "add";
-              // handleBillingAddress(type);
+              setPopupRole("edit");
               setIsToggleAddressForm(!isToggleAddressForm);
             }}
           >
-            {billingAddressExist ? (
-              <button>
-                Edit <FaEdit />
-              </button>
-            ) : (
-              <button>
-                Add <IoAddOutline />
-              </button>
-            )}
+            <button>
+              Edit <FaEdit />
+            </button>
+          </span>
+          <span
+            className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+            onClick={() => {
+              setPopupRole("add");
+              setIsToggleAddressForm(!isToggleAddressForm);
+            }}
+          >
+            <button>
+              Add New<IoAddOutline />
+            </button>
           </span>
         </div>
       )}
@@ -401,6 +406,7 @@ export const ProductDetails = ({ giftCardState }) => {
   const [userAddress, setUserAddress] = useState(null);
   const [addresses, setAddresses] = useState(null);
   const [isToggleAddressForm, setIsToggleAddressForm] = useState(false);
+  const [popupRole, setPopupRole] = useState(" ");
   const dispatch = useDispatch();
   const router = useRouter();
   console.log(userAddress, addresses);
@@ -538,7 +544,7 @@ export const ProductDetails = ({ giftCardState }) => {
       setAddresses(getAddresses?.addresses);
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
-  throw new Error(" address could not be fetched in checkout",error);
+      throw new Error(" address could not be fetched in checkout", error);
     }
   };
   const UpdateAddress = async (shipping) => {
@@ -557,12 +563,12 @@ export const ProductDetails = ({ giftCardState }) => {
       });
       console.log(res, "res");
       setUserAddress(res?.address);
-      // dispatch(
-      //   SetUserDetail({
-      //     ...UserDetail,
-      //     defaultAddress: res?.address?._id,
-      //   })
-      // );
+      dispatch(
+        SetUserDetail({
+          ...UserDetail,
+          defaultAddress: res?.user?.defaultAddress,
+        })
+      );
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
     } finally {
@@ -605,8 +611,9 @@ export const ProductDetails = ({ giftCardState }) => {
             billingAddressExist={userAddress ? true : false}
             isToggleAddressForm={isToggleAddressForm}
             setIsToggleAddressForm={setIsToggleAddressForm}
+            setPopupRole={setPopupRole}
           />
-          {!!userAddress ? (
+          {popupRole == "edit" ? (
             <AddressPopup
               usedIn={"checkout"}
               role={"edit"}
