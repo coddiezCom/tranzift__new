@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const saveAddress = async (address, user) => {
   try {
-    const baseUrl = "address/create-address";
+    const baseUrl = "address/create-address"; 
     const data = await apiHelper(baseUrl, {}, "POST", {
       email: user?.email_id,
       addressType: "billing",
@@ -23,13 +23,8 @@ export const saveAddress = async (address, user) => {
 export const getAddress = async (associatedUser) => {
   try {
     const baseUrl = "address/get-all-address";
-    const data = await apiHelper(
-      baseUrl,
-      {
-        associatedUser: associatedUser,
-      },
-      "GET"
-    );
+    const data = await apiHelper( baseUrl, {associatedUser: associatedUser}, "GET" );
+    console.log(data);
     return data;
   } catch (error) {
     return error.response.data.message;
@@ -54,8 +49,10 @@ export const updateAddress = async (address, user) => {
       country: country,
       pincode: zipCode,
     });
+    console.log(data , "updateAddress -> data");
     return data.address;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };

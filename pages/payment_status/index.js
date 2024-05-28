@@ -16,7 +16,7 @@ import { FaPrint } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 // import react-to-print
 import ReactToPrint from "react-to-print";
-// import MUI components
+// import MUI components 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -29,7 +29,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { UserDetail } from "../../store/UserSlice";
 const formatTransactionId = (txnId) => {
-  const formattedTxnId = txnId.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
+  const formattedTxnId = txnId?.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
   return formattedTxnId;
 };
 // table
@@ -170,8 +170,28 @@ const getPaymentOrderDetail = async (orderId) => {
     return error;
   }
 };
-const PaymentStatus = ({ paymentOrder, error }) => {
+
+const Index = () => {
+  const [paymentOrder, setPaymentOrder] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
+  useEffect(() => {
+    const fetchData = async () => {
+      const { query } = router;
+      try {
+        const orderId = query.order_id;
+        const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
+        setPaymentOrder(paymentOrderStatusData.data);
+        setError(null);
+      } catch (error) {
+        setError(error.message || "An error occurred");
+        setPaymentOrder(null);
+      }
+    };
+
+    fetchData();
+  }, [router.query]);
+
   const paymentResponseData = {
     order_id: paymentOrder?.orderDetails?.order_id,
     order_amount: paymentOrder?.orderDetails?.order_amount,
@@ -183,8 +203,6 @@ const PaymentStatus = ({ paymentOrder, error }) => {
   const userDetail = useSelector((state) => state.userDetail);
   const giftCardDetail = useSelector((state) => state.giftCardDetail);
   const paymentOrderStatus = paymentOrder?.orderDetails?.order_status;
-  const [paymentOrder, setPaymentOrder] = useState({});
-  const [error, setError] = useState(null);
   const orderId = router.query.order_id;
   console.log("router.query.order_id", router.query.order_id);
   useEffect(() => {
@@ -266,8 +284,7 @@ const PaymentStatus = ({ paymentOrder, error }) => {
     </div>
   );
 };
-
-export default PaymentStatus;
+export default Index;
 
 function GiftIcon(props) {
   return (

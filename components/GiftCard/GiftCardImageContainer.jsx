@@ -42,7 +42,7 @@ const Index = ({ card, CardImg }) => {
   return (
     <CardContent sx={{ padding: 0 }} className={styles.__cardDetail}>
       <Typography gutterBottom variant="h6" sx={{ fontSize: "1em" }} component="div" className={styles.__name}>
-        {card?.name.substr(0, 24) + "..."}
+        {card?.name?.substring(0, 24) + "..."}
       </Typography>
       <Typography gutterBottom variant="h6" sx={{ fontSize: "0.5em" }} component="div" className={styles.__valid}>
         {card?.expiry ? " Validity: " + card?.expiry : ""}

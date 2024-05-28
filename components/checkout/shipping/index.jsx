@@ -1,12 +1,12 @@
 // import liabary
-import { useState } from "react";
-import styles from "./styles.module.scss";
+import { useEffect, useState } from "react";
+import styles from "@/components/checkout/shipping/styles.module.scss";
 import { useRouter } from "next/router";
 // import redux
 import { useDispatch, useSelector } from "react-redux";
 import { SetUserDetail } from "@/store/UserSlice";
-// import user api requests
-import { updateAddress, changeActiveAddress, deleteAddress, getAddress, saveAddress } from "../../../requests/user";
+// import UserDetail api requests
+import { changeActiveAddress, deleteAddress } from "@/requests/user";
 // import react icons
 import { MdDelete } from "react-icons/md";
 // import react toast
@@ -15,39 +15,122 @@ import "react-toastify/dist/ReactToastify.css";
 import { stringAvatar } from "@/utils/avatarGenerator";
 // import react Avatar
 import { Avatar } from "@mui/material";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+
 // import component
 import AddressPopup from "./AddressPopup";
+import apiHelper from "@/utils/apiHelper";
 
-export default function Shipping({ user, addresses, setAddresses, profile }) {
-  console.log(addresses, "addresses");
-  const fullName = user?.firstName + " " + user?.lastName;
+export default function Shipping({ profile }) {
+  console.log({ profile });
+
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [userAddress, setUserAddress] = useState(null);
+  const [addresses, setAddresses] = useState(null);
   const [isToggleAddressForm, setIsToggleAddressForm] = useState(false);
   const dispatch = useDispatch();
-  const { userDetail } = useSelector((state) => ({ ...state }));
+  const UserDetail = useSelector((state) => state.userDetail);
   const router = useRouter();
-  const saveShippingHandler = async (shipping) => {
-    // console.log(shipping, "saveShippingHandler -> shippingData");
-    const res = await saveAddress(shipping, user);
+  const fullName = UserDetail?.firstName + " " + UserDetail?.lastName;
+  console.log(UserDetail, userAddress, addresses);
+
+  useEffect(() => {
+    fetchDefaultAddressById();
+  }, [UserDetail?.defaultAddress]);
+
+  useEffect(() => {
+    fetchAddresses();
+  }, [UserDetail?.user_id]);
+
+  const fetchDefaultAddressById = async () => {
+    // defaultAddress nhi h kyu ki defaultAddress set hi nahi kiya
+    const baseUrl = `address/address/${UserDetail?.defaultAddress}`;
+    console.log(UserDetail);
+    console.log(baseUrl, "fetchAddressById -> baseUrl");
+    //TODO: setup a tooltip to show alert that default address is not set
+
+    if (!UserDetail?.defaultAddress) {
+      return;
+    }
     try {
-      const getAddresses = await getAddress(res.associatedUser);
-      setAddresses(getAddresses?.addresses);
+      const response = await apiHelper(baseUrl);
+      if (response?.addressDetails) {
+        setUserAddress(response?.addressDetails);
+      }
     } catch (error) {
-      console.log("[SHIPING_PAGE]", error);
-    } finally {
-      setIsToggleAddressForm(false);
+      console.log("[ADDRESS_PAGE]", error);
     }
   };
 
-  const UpdateAddress = async (shipping) => {
-    console.log(shipping, "UpdateAddress -> shippingData");
+  const fetchAddresses = async () => {
+    const getAddressBaseUrl = `address/get-all-address?associatedUser=${UserDetail?.user_id}`;
     try {
-      const res = await updateAddress(shipping, user); // name is same as parent function name(UpdateAddress)
-      setAddresses(res?.addresses);
+      const getAddresses = await apiHelper(getAddressBaseUrl, {}, "GET");
+      console.log(getAddresses, "getAddresses");
+      setAddresses(getAddresses?.addresses);
+    } catch (error) {
+      throw new Error(" address could not be fetched in shipping ", error);
+    }
+  };
+
+  const saveShippingHandler = async (shipping) => {
+    console.log(shipping, "shipping");
+    const createAddressBaseUrl = "address/create-address";
+    try {
+      const res = await apiHelper(createAddressBaseUrl, {}, "POST", {
+        email: UserDetail?.email_id,
+        addressType: shipping.addressType || "shipping",
+        addressLineOne: shipping.address1,
+        addressLineTwo: shipping.address2 || "",
+        landmark: shipping.landmark || "",
+        city: shipping.city,
+        state: shipping.state,
+        country: shipping.country,
+        pincode: Number(shipping.zipCode),
+      });
+      console.log(res, "res -> saveShippingHandler -> AddressPopup");
+      setUserAddress(res?.address); // set user address
+      handleSelectedAddress(res?.address?._id);
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
+      throw new Error(error);
     } finally {
       setIsToggleAddressForm(false);
+    }
+
+    fetchAddresses();
+
+    // try {
+    //   const getAddresses = await apiHelper(getAddressBaseUrl, {}, "GET");
+    //   console.log(getAddresses, "getAddresses");
+    //   setAddresses(getAddresses?.addresses);
+    // } catch (error) {
+    //   console.log("[SHIPING_PAGE]", error);
+    //   throw new Error(" address could not be fetched ", error);
+    // }
+  };
+
+  const handleSelectedAddress = async (addressId) => {
+    console.log(addressId, "addressId");
+    const setDefaultAddressBaseUrl = `user/setdefaultaddress/${UserDetail?.user_id}`;
+    console.log(setDefaultAddressBaseUrl, "setDefaultAddressBaseUrl");
+
+    try {
+      // const res = await changeActiveAddress(addressId, UserDetail);
+      const res = await apiHelper(setDefaultAddressBaseUrl, {}, "PATCH", {
+        addressId: addressId,
+      });
+      console.log(res, "res -> saveShippingHandler -> AddressPopup");
+      dispatch(
+        SetUserDetail({
+          ...UserDetail,
+          defaultAddress: res?.user?.defaultAddress,
+        })
+      );
+    } catch (error) {
+      throw new Error("default address could not be set", error);
+    } finally {
+      setSelectedAddress(addressId);
     }
   };
 
@@ -65,82 +148,84 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
         progress: undefined,
         theme: "light",
       });
-      router.reload();
-    } catch (error) {
-      console.log("[SHIPING_PAGE]", error);
-    }
-  };
-  const toggleAddressForm = () => {
-    setIsToggleAddressForm(!isToggleAddressForm);
-  };
-  const handleSelectedAddress = async (addressId) => {
-    try {
-      const res = await changeActiveAddress(addressId, user);
-      dispatch(
-        SetUserDetail({
-          ...userDetail,
-          defaultAddress: res?.user?.defaultAddress,
-        })
-      );
+      // router.reload();
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
     } finally {
-      setSelectedAddress(addressId);
+      fetchAddresses();
     }
+  };
+
+  const toggleAddressForm = () => {
+    setIsToggleAddressForm(!isToggleAddressForm);
   };
   return (
     <>
       <ToastContainer />
-      <div className={`${styles.shipping} flex flex-col w-full`}>
+      <div className={`${styles.container} `}>
         {!profile && (
           <div className={styles.header}>
             <h3>Shipping Informations</h3>
           </div>
         )}
-
-        <AddressPopup handleSubmit={saveShippingHandler} user={user} setAddresses={setAddresses} />
-        <div className={`flex flex-wrap items-start w-full ${styles.addresses}`}>
+        <button className={styles.hide_show} onClick={() => setIsToggleAddressForm(!isToggleAddressForm)}>
+          <span className="border-2 purple-blue-800  ">
+            <span>{isToggleAddressForm ? <AiOutlineMinus /> : <AiOutlinePlus />}</span>
+            Add Address
+          </span>
+        </button>
+        <AddressPopup
+          role={"add"}
+          handleSubmit={saveShippingHandler}
+          UserDetail={UserDetail}
+          setAddresses={setAddresses}
+          setIsToggleAddressForm={setIsToggleAddressForm}
+          isToggleAddressForm={isToggleAddressForm}
+        />
+        <div className={`${styles.container__addresses}`}>
           {addresses?.map((address, index) => {
             return (
               <div
-                style={{ position: "relative" }}
                 className={`w-1/3 ${
-                  userDetail?.defaultAddress === address._id ? "" : "hover:scale-[1.05]"
+                  UserDetail?.defaultAddress === address._id ? "" : "hover:scale-[1.05]"
                 }   transition ease-in-out duration-700`}
                 key={index}
               >
-                <AddressPopup
-                  role={"edit"}
-                  user={user}
-                  address={address}
-                  handleSubmit={UpdateAddress}
-                  setAddresses={setAddresses}
-                />
-                <div
-                  className={`${styles.address__delete} text-gray-400 hover:text-red-700 transition ease-in-out delay-75 `}
-                  onClick={() => deleteHandler(address._id)}
-                >
-                  <MdDelete />
-                </div>
+                {/* <div className="border-2 border-green-600 ">
+                  <AddressPopup
+                    role={"edit"}
+                    UserDetail={UserDetail}
+                    address={address}
+                    // handleSubmit={UpdateAddress}
+                    setAddresses={setAddresses}
+                    setIsToggleAddressForm={setIsToggleAddressForm}
+                    isToggleAddressForm={isToggleAddressForm}
+                  />
+                </div> */}
+
                 <div
                   className={`${styles.address} ${address.active && styles.active} ${
-                    userDetail?.defaultAddress === address._id ? "shadow-inner shadow-[#6176fe]   " : "shadow-md  "
+                    UserDetail?.defaultAddress === address._id ? "shadow-inner shadow-[#6176fe]   " : "shadow-md  "
                   } rounded-xl  `}
                   key={address._id}
                   onClick={() => handleSelectedAddress(address._id)}
                 >
-                  <div className={`${styles.address__side}`}>
-                    <Avatar {...stringAvatar(fullName.toUpperCase())} />
-                    <span>{fullName}</span>
+                  <div className={`${styles.address__header} `}>
+                    <div className={`${styles.address__header__avatar}`}>
+                      <Avatar {...stringAvatar(fullName.toUpperCase())} />
+                      <span>{fullName}</span>
+                    </div>
                   </div>
-
                   <div className={`${styles.address__col}`}>
-                    <span>{address.addressLineOne}</span>
-                    <span>{address.addressLineTwo}</span>
-                    <span>
+                    <div>{address.addressLineOne}</div>
+                    <div>{address.addressLineTwo}</div>
+                    <div>
                       {address.city}, {address.state} - {address.pincode}
-                    </span>
-                    <span>{address.country}</span>
+                    </div>
+                    <div>{address.country}</div>
+                  </div>
+                  <div className={`${styles.address__delete} text-red-700 `} onClick={() => deleteHandler(address._id)}>
+                    <MdDelete />
                   </div>
                 </div>
               </div>

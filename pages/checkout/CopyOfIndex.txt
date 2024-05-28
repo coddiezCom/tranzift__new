@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 // import styles
 import styles from "@/styles/checkout.module.scss";
 // import react icons
+import { FaCheck } from "react-icons/fa";
 import { LuLoader2 } from "react-icons/lu";
 // import react toast
 import { ToastContainer, toast } from "react-toastify";
@@ -20,6 +21,8 @@ import apiHelper from "@/utils/apiHelper";
 import { FaEdit } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
+// import axios
+import axios from "axios";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
 import { getAddress, saveAddress, updateAddress } from "../../requests/user";
@@ -36,15 +39,7 @@ const getGiftCardDetail = (sku) => {
     throw error;
   }
 };
-export const ProductDetailLayout = ({
-  data,
-  Heading,
-  useFor,
-  billingAddressExist,
-  handleBillingAddress,
-  setIsToggleAddressForm,
-  isToggleAddressForm,
-}) => {
+export const ProductDetailLayout = ({ data, Heading, useFor, billingAddressExist, handleBillingAddress }) => {
   console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress });
   return (
     <div className="w-full flex flex-col gap-3 border-2 border-red-900 ">
@@ -58,19 +53,18 @@ export const ProductDetailLayout = ({
           <span
             className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
             onClick={() => {
-              // const type = billingAddressExist ? "edit" : "add";
-              // handleBillingAddress(type);
-              setIsToggleAddressForm(!isToggleAddressForm);
+              const type = !billingAddressExist ? "Add" :"Edit";
+              handleBillingAddress(type);
             }}
           >
-            {billingAddressExist ? (
-              <button>
-                Edit <FaEdit />
-              </button>
-            ) : (
-              <button>
+            {!billingAddressExist ? (
+              <>
                 Add <IoAddOutline />
-              </button>
+              </>
+            ) : (
+              <>
+                Edit <FaEdit />
+              </>
             )}
           </span>
         </div>
@@ -78,10 +72,7 @@ export const ProductDetailLayout = ({
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
         {useFor != "billing" ? (
           data.map((detail, index) => (
-            <div
-              key={index}
-              className=" border-2 border-pink-600 flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between"
-            >
+            <div key={index} className="flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between">
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
@@ -99,7 +90,7 @@ export const ProductDetailLayout = ({
             </div>
           ))
         ) : (
-          <div className=" border-2 border-violet-700 flex flex-wrap">
+          <div className="flex flex-wrap">
             {data.map(
               (detail, index) =>
                 detail?.value && (
@@ -402,8 +393,8 @@ export const ProductDetails = ({ giftCardState }) => {
   const [addresses, setAddresses] = useState(null);
   const [isToggleAddressForm, setIsToggleAddressForm] = useState(false);
   const dispatch = useDispatch();
+  const { userDetail } = useSelector((state) => ({ ...state }));
   const router = useRouter();
-  console.log(userAddress, addresses);
   const productDetails = [
     { label: "Product Name", value: giftCardState?.gift_card_name || "----" },
     { label: "Gift Card", value: "/images/gift_card/Fastrack_E-Gift_Card_dtp.jpg" }, // TODO: Replace with actual image
@@ -453,8 +444,6 @@ export const ProductDetails = ({ giftCardState }) => {
       try {
         // Assuming getAddresses is an async function to fetch addresses
         const addresses = await getAddress(userId);
-        console.log("addresses", addresses);
-        setAddresses(addresses.addresses);
         return addresses.addresses;
       } catch (error) {
         console.log("[ADDRESS_PAGE]", error);
@@ -473,7 +462,7 @@ export const ProductDetails = ({ giftCardState }) => {
     };
 
     loadAddresses();
-  }, [UserDetail?.user_id]);
+  }, [userDetail?.user_id]);
 
   const BillingDetails = [
     { label: "Address 1", value: userAddress?.addressLineOne || "" },
@@ -483,102 +472,49 @@ export const ProductDetails = ({ giftCardState }) => {
     { label: "Post/zip code", value: userAddress?.pincode || "" },
     { label: "Country", value: userAddress?.country || "" },
   ];
-  console.log(BillingDetails, "BillingDetails");
   const handleBillingAddress = (type) => {
     console.log("handleBillingAddress", type);
     setIsToggleAddressForm(!isToggleAddressForm);
-    return type;
+    return type
   };
-  console.log(UserDetail, "UserDetail");
-
   const saveShippingHandler = async (shipping) => {
-    console.log(shipping, "shipping");
-    const createAddressBaseUrl = "address/create-address";
-    const getAddressBaseUrl = `address/get-all-address?associatedUser=${UserDetail?.user_id}`;
-    const setDefaultAddressBaseUrl = `user/setdefaultaddress/${UserDetail?.user_id}`;
+    const res = await saveAddress(shipping, UserDetail);
     try {
-      const res = await apiHelper(createAddressBaseUrl, {}, "POST", {
-        email: UserDetail?.email_id,
-        addressType: shipping.addressType || "shipping",
-        addressLineOne: shipping.address1,
-        addressLineTwo: shipping.address2 || "",
-        landmark: shipping.landmark || "",
-        city: shipping.city,
-        state: shipping.state,
-        country: shipping.country,
-        pincode: Number(shipping.zipCode),
-      });
-      console.log(res, "res -> saveShippingHandler -> AddressPopup");
-      setUserAddress(res?.address);
-    } catch (error) {
-      console.log("[SHIPING_PAGE]", error);
-      throw new Error(error);
-    } finally {
-      setIsToggleAddressForm(false);
-    }
-
-    try {
-      const res = await apiHelper(setDefaultAddressBaseUrl, {}, "PATCH", {
-        addressId: userAddress?._id,
-      });
-      console.log(res, "res -> saveShippingHandler -> AddressPopup");
-      dispatch(
-        SetUserDetail({
-          ...UserDetail,
-          defaultAddress: res?.user?.defaultAddress,
-        })
-      );
-    } catch (error) {
-      throw new Error("default address could not be set", error);
-    }
-
-    try {
-      const getAddresses = await apiHelper(getAddressBaseUrl, {}, "GET");
-      console.log(getAddresses, "getAddresses");
+      const getAddresses = await getAddress(res.associatedUser);
       setAddresses(getAddresses?.addresses);
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
-  throw new Error(" address could not be fetched in checkout",error);
+    } finally {
+      setIsToggleAddressForm(false);
     }
   };
   const UpdateAddress = async (shipping) => {
-    console.log(shipping, userAddress, "UpdateAddress -> shippingData");
-    const baseUrl = `address/address/${userAddress?._id}`;
+    console.log(shipping, "UpdateAddress -> shippingData");
     try {
-      const res = await apiHelper(baseUrl, {}, "PATCH", {
-        addressType: shipping.addressType || "shipping",
-        addressLineOne: shipping.address1,
-        addressLineTwo: shipping.address2 || "",
-        landmark: shipping.landmark || "",
-        city: shipping.city,
-        state: shipping.state,
-        country: shipping.country,
-        pincode: Number(shipping.zipCode),
-      });
-      console.log(res, "res");
-      setUserAddress(res?.address);
-      // dispatch(
-      //   SetUserDetail({
-      //     ...UserDetail,
-      //     defaultAddress: res?.address?._id,
-      //   })
-      // );
+      const res = await updateAddress(shipping, UserDetail);
+      setAddresses(res?.addresses);
+      setUserAddress(res);
+      dispatch(
+        SetUserDetail({
+          ...userDetail,
+          defaultAddress: res?._id,
+        })
+      );
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
     } finally {
       setIsToggleAddressForm(false);
     }
   };
-  // const toggleAddressForm = ( toggle ) => {
-  //   // setIsToggleAddressForm(!isToggleAddressForm);
-  //   setIsToggleAddressForm(toggle);
-  // };
+  const toggleAddressForm = () => {
+    setIsToggleAddressForm(!isToggleAddressForm);
+  };
   const handleSelectedAddress = async (addressId) => {
     try {
       const res = await changeActiveAddress(addressId, UserDetail);
       dispatch(
         SetUserDetail({
-          ...UserDetail,
+          ...userDetail,
           defaultAddress: res?.user?.defaultAddress,
         })
       );
@@ -596,35 +532,29 @@ export const ProductDetails = ({ giftCardState }) => {
       >
         <ProductDetailLayout data={productDetails} Heading={"Product Details"} />
         <ProductDetailLayout data={receiverDetails} Heading={"Receiver Details"} />
-        <div>
-          <ProductDetailLayout
-            data={BillingDetails}
-            Heading={"Billing Address"}
-            useFor="billing"
-            handleBillingAddress={handleBillingAddress}
-            billingAddressExist={userAddress ? true : false}
-            isToggleAddressForm={isToggleAddressForm}
-            setIsToggleAddressForm={setIsToggleAddressForm}
-          />
+        <ProductDetailLayout
+          data={BillingDetails}
+          Heading={"Billing Address"}
+          useFor="billing"
+          handleBillingAddress={handleBillingAddress}
+          billingAddressExist={userAddress ? true : false}
+        />
+        <div className="border-2 border-orange-800">
           {!!userAddress ? (
             <AddressPopup
-              usedIn={"checkout"}
+              usedIn="checkout"
               role={"edit"}
               address={userAddress}
               handleSubmit={UpdateAddress}
-              setIsToggleAddressForm={setIsToggleAddressForm} // todo : change this on other place too
+              toggleAddressForm={toggleAddressForm}
               isToggleAddressForm={isToggleAddressForm}
-              user={UserDetail}
-              setAddresses={setAddresses}
             />
           ) : (
             <AddressPopup
-              usedIn={"checkout"}
-              role={"add"}
+              usedIn="checkout"
               handleSubmit={saveShippingHandler}
-              setIsToggleAddressForm={setIsToggleAddressForm}
+              toggleAddressForm={toggleAddressForm}
               isToggleAddressForm={isToggleAddressForm}
-              setAddresses={setAddresses}
             />
           )}
         </div>
@@ -758,7 +688,7 @@ const Index = ({}) => {
         email: UserDetail?.email_id,
         mobile: `${UserDetail?.phone}`,
       };
-      const orderResponse = apiHelper(baseUrl, {}, "POST", sampleData);
+      const orderResponse = apiHelper(baseUrl, "POST", sampleData);
       console.log(orderResponse, "orderResponse");
       let checkoutOptions = {
         paymentSessionId: orderResponse.data.data.payment_session_id,

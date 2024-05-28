@@ -1,34 +1,106 @@
 @import "../base";
-.shipping {
+
+.container {
+  // border: 2px solid red;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
   gap: 1rem;
-  .col {
+
+  &__addresses {
+    // border: 2px solid blue;
     display: flex;
-    flex-direction: column;
-    @media (min-width: 700px) {
-      flex-direction: row;
-      gap: 0.5rem;
-    }
+    align-items: center;
+    // justify-content: center;
+    // padding: 1em;
+    gap: 1em;
   }
-  form {
-    width: 100%;
-    transition: all 0.2s;
-    button {
-      width: 150px;
-      // height: 50px;
-      color: #fff;
-      font-weight: 600;
-      background: #000;
-      cursor: pointer;
+}
+
+.address {
+  // border: 2px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  // &__edit {
+  //   display: flex;
+  //   border: none;
+  //   background: transparent;
+  //   cursor: pointer;
+  //   align-items: center;
+  //   justify-content: end;
+  //   margin: 0.3em;
+  //   svg {
+  //     height: 1.4em;
+  //     width: 1.4em;
+  //   }
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__avatar {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
     }
-    .select {
-      width: 220px;
-      margin-bottom: 10px !important;
+    // &__edit {
+    //   align-self: start;
+    //   font-size: 1.4rem;
+      
+    // }
+  }
+
+  &__col {
+    // border: 2px solid green;
+  }
+  &__delete {
+    display: flex;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: end;
+    margin: 0.3em;
+    svg {
+      height: 1.4em;
+      width: 1.4em;
     }
   }
 }
+
+// .shipping {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 1rem;
+//   .col {
+//     display: flex;
+//     flex-direction: column;
+//     @media (min-width: 700px) {
+//       flex-direction: row;
+//       gap: 0.5rem;
+//     }
+//   }
+//   form {
+//     width: 100%;
+//     transition: all 0.2s;
+//     button {
+//       width: 150px;
+//       // height: 50px;
+//       color: #fff;
+//       font-weight: 600;
+//       background: #000;
+//       cursor: pointer;
+//     }
+//     .select {
+//       width: 220px;
+//       margin-bottom: 10px !important;
+//     }
+//   }
+// }
 .hide_show {
   width: 100%;
   background: transparent;
@@ -53,78 +125,79 @@
     }
   }
 }
-.addresses {
-  display: flex;
-  flex-direction: row;
-  gap: 3rem;
-  width: 100%;
-  flex-wrap: wrap;
-  > div {
-    width: calc(33.33% - 3rem);
-  }
-  .address {
-    position: relative;
-    // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    cursor: pointer;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5em;
-    min-height: 14em;
-    &__overlay {
-    }
-    &__delete {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      fill: #666;
-      filter: invert(10%);
-      z-index: 1;
-    }
-    &__Edit {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1rem;
-      fill: #666;
-      filter: invert(10%);
-      z-index: 1;
-    }
-    &__col {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3em;
-      padding: 0.5em 0;
-      font-size: 0.8rem;
+// .addresses {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 3rem;
+//   width: 100%;
+//   flex-wrap: wrap;
+//   > div {
+//     position: "relative";
+//     width: calc(33.33% - 3rem);
+//   }
+//   .address {
+//     position: relative;
+//     // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+//     cursor: pointer;
+//     padding: 1rem;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     gap: 0.5em;
+//     min-height: 14em;
+//     &__overlay {
+//     }
+//     &__delete {
+//       position: absolute;
+//       bottom: 1rem;
+//       right: 1rem;
+//       font-size: 1.5rem;
+//       fill: #666;
+//       filter: invert(10%);
+//       z-index: 1;
+//     }
+//     &__Edit {
+//       position: absolute;
+//       top: 1rem;
+//       right: 1rem;
+//       font-size: 1rem;
+//       fill: #666;
+//       filter: invert(10%);
+//       z-index: 1;
+//     }
+//     &__col {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 0.3em;
+//       padding: 0.5em 0;
+//       font-size: 0.8rem;
 
-      span {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        svg {
-          fill: #666;
-        }
-      }
-    }
-    &__side {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 0.5em;
-      img {
-        height: 100px;
-        width: 100px;
-        border-radius: 50%;
-        box-shadow: $shadow-1;
-        object-fit: cover;
-      }
-    }
-  }
-}
+//       span {
+//         display: flex;
+//         align-items: center;
+//         gap: 5px;
+//         svg {
+//           fill: #666;
+//         }
+//       }
+//     }
+//     &__side {
+//       display: flex;
+//       align-items: center;
+//       justify-content: flex-start;
+//       gap: 0.5em;
+//       img {
+//         height: 100px;
+//         width: 100px;
+//         border-radius: 50%;
+//         box-shadow: $shadow-1;
+//         object-fit: cover;
+//       }
+//     }
+//   }
+// }
 
-//
+// address form
 .addressForm {
   display: flex;
   width: fit-content;
@@ -172,7 +245,7 @@
   }
 }
 
-// Modal
+// // Modal
 .__modal {
   > div {
     &:first-of-type {

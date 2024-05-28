@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import PropTypes from "prop-types"; //pata nhi
-
+import PropTypes from "prop-types";
 import * as yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -29,6 +27,7 @@ import { SetToggleRegisterPopup } from "@/store/ToggleRegisterPopup";
 import { TfiGift } from "react-icons/tfi";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "@/styles/gift-card.module.scss";
+import { useRouter } from "next/router";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,7 +65,6 @@ const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />
 }));
 function MyFormControlLabel(props) {
   const radioGroup = useRadioGroup();
-  console.log(radioGroup, "radioGroup");
   let checked = false;
   if (radioGroup) {
     checked = radioGroup.value === props.value;
@@ -80,9 +78,13 @@ MyFormControlLabel.propTypes = {
   value: PropTypes.any,
 };
 
-const getGiftCardById = async (productId) => {
+const getGiftCardById = async (sku) => {
+  if (!sku) {
+    throw new Error("SKU is required");
+  }
+  const baseUrl = `woohooproduct/getdetails/${sku}`;
   try {
-    const searchResult = await apiHelper(`/woohooproduct/getdetails/${productId}`);
+    const searchResult = await apiHelper(baseUrl);
     return searchResult.giftCardDetails;
   } catch (error) {
     console.error("Error fetching gift cards:", error);
@@ -103,9 +105,15 @@ const getRedeemInstructionByBrandId = async (brandId) => {
   }
 };
 const getGiftCardDetail = async (sku) => {
+  if (!sku) {
+    throw new Error("SKU is required");
+  }
+  const baseUrl = `giftcards/gcdetails/${sku}`;
   try {
-    const baseUrl = `giftcards/gcdetails/${sku}`;
     const giftCardDetail = await apiHelper(baseUrl);
+    if (!giftCardDetail) {
+      throw new Error(" Gift card details not found");
+    }
     return giftCardDetail;
   } catch (error) {
     console.error("Error fetching gift card details:", error);
@@ -114,37 +122,54 @@ const getGiftCardDetail = async (sku) => {
 };
 
 const Index = () => {
-  const [gift_card, setGift_card] = useState();
-  const [gift_cardDetail, setGift_cardDetail] = useState();
+  const router = useRouter();
+  const [gift_card, setGift_card] = useState({});
+  const [gift_cardDetail, setGift_cardDetail] = useState({});
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState("send_as_Gift");
   const { userDetail } = useSelector((state) => ({ ...state }));
   const giftCardInitialState = useSelector((state) => state.giftCardDetail);
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const { query } = router;
   useEffect(() => {
+    const sku = router.query.sku;
+    if (!sku) {
+      throw new Error("SKU not found");
+    }
+    
+    // Fetch gift card data from API
     const fetchGiftCardData = async () => {
       try {
-        const sku = query?.sku;
-        // Fetch gift card data
         const giftCard = await getGiftCardById(sku);
-        setGift_card(giftCard);
-
-        // If gift card is fetched successfully, proceed to fetch gift card details
-        const giftCardSku = giftCard?.sku;
-        if (giftCardSku) {
-          const giftCardDetail = await getGiftCardDetail(giftCardSku);
-          const GCDetails = giftCardDetail?.GCDetails;
-          setGift_cardDetail(GCDetails);
+        if (!giftCard) {
+          throw new Error("Gift card not found");
         }
+        setGift_card(giftCard);
+  
+        // If gift card is fetched successfully, proceed to fetch gift card details
+        const giftCardSku = giftCard.sku;
+        if (!giftCardSku) {
+          throw new Error("Gift details card not found");
+        }
+  
+        const giftCardDetail = await getGiftCardDetail(giftCardSku);
+        const GCDetails = giftCardDetail?.GCDetails;
+        setGift_cardDetail(GCDetails);
       } catch (error) {
-        console.error("Error fetching gift card details:", error);
+        if (axios.isAxiosError(error)) {
+          // Axios error
+          console.error("Axios Error:", error.response);
+          // Handle Axios error appropriately
+        } else {
+          // Other errors
+          console.error("Error fetching gift card details:", error);
+          throw error;
+        }
       }
     };
-
+  
     fetchGiftCardData();
-  }, [query?.sku]);
+  }, [router.query?.sku]);
+  
 
   const minDenomination = gift_card?.price?.min ? gift_card?.price?.min : 1;
   const maxDenomination = gift_card?.price?.max ? gift_card?.price?.max : 100;
@@ -316,7 +341,7 @@ const Index = () => {
                   <button
                     type="submit"
                     onClick={() => buyForSelfCheckOut()}
-                    className={`${styles.__submit} transition hover:scale-105 ease-in-out duration-700 `}
+                    className={`${styles.__submit} transition hover:scale-105 ease-in-out duration-700 border-2 border-red-700`}
                   >
                     Proceed to checkout
                   </button>
@@ -324,7 +349,7 @@ const Index = () => {
                   <button
                     type="button"
                     onClick={() => showRegistration(true)}
-                    className={`${styles.__submit} transition hover:scale-105 ease-in-out duration-700 border-2  `}
+                    className={`${styles.__submit} transition hover:scale-105 ease-in-out duration-700 border-2 border-orange-700 `}
                   >
                     Proceed to checkout (SignIn required)
                   </button>

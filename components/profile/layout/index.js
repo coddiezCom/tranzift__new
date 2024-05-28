@@ -8,7 +8,7 @@ import Sidebar from "../sidebar";
 // import static data
 import { sidebarData } from "../../../data/profile";
 // import react-icons
-import { IoMenu } from "react-icons/io5";
+import { IoMenu } from "react-icons/io5"; 
 
 export default function Layout({ tab, children, session }) {
   const [toggleSideBar, setToggleSideBar] = useState(false);
