@@ -22,7 +22,7 @@ import { IoAddOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
-import { getAddress, saveAddress, updateAddress } from "../../requests/user";
+import { getAddress} from "../../requests/user";
 // import MUI Modal
 import Modal from "@mui/material/Modal";
 
