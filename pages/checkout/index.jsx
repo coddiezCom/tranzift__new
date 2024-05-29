@@ -44,11 +44,11 @@ export const ProductDetailLayout = ({
   handleBillingAddress,
   setIsToggleAddressForm,
   isToggleAddressForm,
-  setPopupRole
+  setPopupRole,
 }) => {
   console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress, setPopupRole });
   return (
-    <div className="w-full flex flex-col gap-3 border-2 border-red-900 ">
+    <div className="w-full flex flex-col gap-3 ">
       {useFor != "billing" ? (
         <div className={"flex justify-start mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl">{Heading}</h2>
@@ -56,26 +56,29 @@ export const ProductDetailLayout = ({
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
+          {billingAddressExist ? (
+            <span
+              className="flex flex-row items-center  shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              onClick={() => {
+                setPopupRole("edit");
+                setIsToggleAddressForm(!isToggleAddressForm);
+              }}
+            >
+              <button>
+                Edit <FaEdit />
+              </button>
+            </span>
+          ) : null}
           <span
-            className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-            onClick={() => {
-              setPopupRole("edit");
-              setIsToggleAddressForm(!isToggleAddressForm);
-            }}
-          >
-            <button>
-              Edit <FaEdit />
-            </button>
-          </span>
-          <span
-            className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+            className=" flex flex-row items-center  shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
             onClick={() => {
               setPopupRole("add");
               setIsToggleAddressForm(!isToggleAddressForm);
             }}
           >
             <button>
-              Add New<IoAddOutline />
+              Add New
+              <IoAddOutline />
             </button>
           </span>
         </div>
@@ -85,7 +88,7 @@ export const ProductDetailLayout = ({
           data.map((detail, index) => (
             <div
               key={index}
-              className=" border-2 border-pink-600 flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between"
+              className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between"
             >
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
@@ -104,7 +107,7 @@ export const ProductDetailLayout = ({
             </div>
           ))
         ) : (
-          <div className=" border-2 border-violet-700 flex flex-wrap">
+          <div className=" flex flex-wrap">
             {data.map(
               (detail, index) =>
                 detail?.value && (
@@ -274,7 +277,7 @@ export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discoun
   return (
     <>
       <ToastContainer />
-      <div className={"shadow-2xl   p-4 rounded-md w-[30%] flex flex-col gap-6    "}>
+      <div className={"shadow-2xl p-4 rounded-md w-[30%] flex flex-col gap-6    "}>
         <div className={"flex justify-start mr-auto"}>
           <h2 className="font-extrabold font-serif text-2xl">Cart Total</h2>
         </div>
@@ -598,7 +601,7 @@ export const ProductDetails = ({ giftCardState }) => {
   return (
     <>
       <div
-        className={`border-2 border-blue-800  shadow-xl p-4 rounded-md w-[70%] flex flex-wrap flex-row gap-6 ${styles.__productDetails__container}`}
+        className={`shadow-xl p-4 rounded-md w-[70%] flex flex-wrap flex-row gap-6 ${styles.__productDetails__container}`}
       >
         <ProductDetailLayout data={productDetails} Heading={"Product Details"} />
         <ProductDetailLayout data={receiverDetails} Heading={"Receiver Details"} />
@@ -779,7 +782,7 @@ const Index = ({}) => {
   return (
     <div className={`flex items-center justify-center ${styles.__checkout}`}>
       <div
-        className={`border-2 border-green-900  flex-wrap   m-4   rounded-md     flex flex-row items-start justify-between ${styles.__checkout__wrapper}`}
+        className={`  flex-wrap   m-4   rounded-md     flex flex-row items-start justify-between ${styles.__checkout__wrapper}`}
       >
         <ProductDetails giftCardState={giftCardState} />
         <OrderSummary
