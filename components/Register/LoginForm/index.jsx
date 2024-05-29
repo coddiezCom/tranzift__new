@@ -101,7 +101,7 @@ const index = ({ gotoSignUp, handleModal }) => {
             </div>
           )}
           <div className={`flex justify-center flex-col mx-auto ${styles.__container__form__heading} `}>
-            <h3 className="mt-1 text-center text-xl font-extrabold text-gray-700 font-serif">Sign Up To Tranzift</h3>
+            <h3 className="mt-1 text-center text-xl font-extrabold text-gray-700 font-serif">Log In To Tranzift</h3>
           </div>
           <div className={`${styles.__container__form__wrapper} `}>
             <Formik

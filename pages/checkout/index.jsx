@@ -18,7 +18,7 @@ import { SetUserDetail } from "../../store/UserSlice";
 import apiHelper from "@/utils/apiHelper";
 // import react icons
 import { FaEdit } from "react-icons/fa";
-import { IoAddOutline } from "react-icons/io5";
+import { MdAdd } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
@@ -44,11 +44,11 @@ export const ProductDetailLayout = ({
   handleBillingAddress,
   setIsToggleAddressForm,
   isToggleAddressForm,
-  setPopupRole
+  setPopupRole,
 }) => {
   console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress, setPopupRole });
   return (
-    <div className="w-full flex flex-col gap-3 border-2 border-red-900 ">
+    <div className="w-full flex flex-col gap-3   ">
       {useFor != "billing" ? (
         <div className={"flex justify-start mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl">{Heading}</h2>
@@ -56,28 +56,30 @@ export const ProductDetailLayout = ({
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
-          <span
-            className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-            onClick={() => {
-              setPopupRole("edit");
-              setIsToggleAddressForm(!isToggleAddressForm);
-            }}
-          >
-            <button>
-              Edit <FaEdit />
-            </button>
-          </span>
-          <span
-            className="  border-yellow-500 flex flex-row items-center border-2 shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-            onClick={() => {
-              setPopupRole("add");
-              setIsToggleAddressForm(!isToggleAddressForm);
-            }}
-          >
-            <button>
-              Add New<IoAddOutline />
-            </button>
-          </span>
+          <div className="flex gap-4">
+            <span
+              className="h-8 w-8 flex flex-row items-center justify-center shadow text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              onClick={() => {
+                setPopupRole("edit");
+                setIsToggleAddressForm(!isToggleAddressForm);
+              }}
+            >
+              <button>
+                <FaEdit />
+              </button>
+            </span>
+            <span
+              className="h-8 w-8 flex flex-row items-center justify-center shadow text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              onClick={() => {
+                setPopupRole("add");
+                setIsToggleAddressForm(!isToggleAddressForm);
+              }}
+            >
+              <button>
+                <MdAdd size={20} />
+              </button>
+            </span>
+          </div>
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
@@ -104,13 +106,13 @@ export const ProductDetailLayout = ({
             </div>
           ))
         ) : (
-          <div className=" border-2 border-violet-700 flex flex-wrap">
+          <div className={`w-full border-2 border-violet-700 ${styles._address}`}>
             {data.map(
               (detail, index) =>
                 detail?.value && (
-                  <p key={index} className="flex   sm:text-sm text-xs">
+                  <span key={index} className={`sm:text-sm text-xs ${styles._add}`}>
                     {detail?.value}
-                  </p>
+                  </span>
                 )
             )}
           </div>
