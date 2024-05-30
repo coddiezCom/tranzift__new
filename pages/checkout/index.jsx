@@ -22,7 +22,7 @@ import { MdAdd } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
-import { getAddress } from "../../requests/user";
+import { getAddress} from "../../requests/user";
 // import MUI Modal
 import Modal from "@mui/material/Modal";
 
@@ -56,16 +56,19 @@ export const ProductDetailLayout = ({
         </div>
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
-          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
-          <div className="flex gap-2">
+          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2
+
+          {billingAddressExist ? (
             <span
               className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+
               onClick={() => {
                 setPopupRole("edit");
                 setIsToggleAddressForm(!isToggleAddressForm);
               }}
             >
               <button>
+
                 <FaEdit />
               </button>
             </span>
@@ -81,12 +84,14 @@ export const ProductDetailLayout = ({
               </button>
             </span>
           </div>
+
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
         {useFor != "billing" ? (
           data.map((detail, index) => (
             <div key={index} className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between">
+
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
@@ -105,6 +110,7 @@ export const ProductDetailLayout = ({
           ))
         ) : (
           <div className={`w-full inline gap-0 ${styles._address}`}>
+
             {data.map(
               (detail, index) =>
                 detail?.value && (
@@ -211,7 +217,7 @@ export const TermAndConditionModal = ({ data }) => {
   );
 };
 export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon }) => {
-  console.log(discount);
+  console.log( doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon );
   const [showMoreCoupon, setShowMoreCoupon] = useState(null);
   const [couponData, setCouponData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
