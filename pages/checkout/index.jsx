@@ -18,7 +18,7 @@ import { SetUserDetail } from "../../store/UserSlice";
 import apiHelper from "@/utils/apiHelper";
 // import react icons
 import { FaEdit } from "react-icons/fa";
-import { IoAddOutline } from "react-icons/io5";
+import { MdAdd } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
@@ -36,6 +36,7 @@ const getGiftCardDetail = (sku) => {
     throw error;
   }
 };
+
 export const ProductDetailLayout = ({
   data,
   Heading,
@@ -55,41 +56,42 @@ export const ProductDetailLayout = ({
         </div>
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
-          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
+          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2
+
           {billingAddressExist ? (
             <span
-              className="flex flex-row items-center  shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+
               onClick={() => {
                 setPopupRole("edit");
                 setIsToggleAddressForm(!isToggleAddressForm);
               }}
             >
               <button>
-                Edit <FaEdit />
+
+                <FaEdit />
               </button>
             </span>
-          ) : null}
-          <span
-            className=" flex flex-row items-center  shadow-md p-0.5 px-1 text-[#1973e8] rounded-md cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-            onClick={() => {
-              setPopupRole("add");
-              setIsToggleAddressForm(!isToggleAddressForm);
-            }}
-          >
-            <button>
-              Add New
-              <IoAddOutline />
-            </button>
-          </span>
+            <span
+              className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              onClick={() => {
+                setPopupRole("add");
+                setIsToggleAddressForm(!isToggleAddressForm);
+              }}
+            >
+              <button>
+                <MdAdd size={20} />
+              </button>
+            </span>
+          </div>
+
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
         {useFor != "billing" ? (
           data.map((detail, index) => (
-            <div
-              key={index}
-              className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between"
-            >
+            <div key={index} className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between">
+
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
@@ -107,11 +109,12 @@ export const ProductDetailLayout = ({
             </div>
           ))
         ) : (
-          <div className=" flex flex-wrap">
+          <div className={`w-full inline gap-0 ${styles._address}`}>
+
             {data.map(
               (detail, index) =>
                 detail?.value && (
-                  <p key={index} className="flex   sm:text-sm text-xs">
+                  <p key={index} className={`sm:text-sm text-xs ${styles._add}`}>
                     {detail?.value}
                   </p>
                 )
@@ -300,7 +303,7 @@ export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discoun
 
         <div className={"border-2 border-gray-300 flex flex-col w-full justify-start mr-auto p-2 rounded-md"}>
           <h2 className="font-thin font-serif mr-auto text-sm">If you have a coupon code, please apply it below.</h2>
-          <div className=" w-full mx-3">
+          <div className=" w-full">
             <div className="relative border-2 border-gray-400 rounded-md mt-3">
               <label for="Search" className="sr-only">
                 Search
@@ -488,7 +491,7 @@ export const ProductDetails = ({ giftCardState }) => {
     { label: "Address 1", value: userAddress?.addressLineOne || "" },
     { label: "Address 2", value: userAddress?.addressLineTwo || "" },
     { label: "City", value: userAddress?.city || "" },
-    { label: "State", value: userAddress?.state || "" },
+    { label: "State", value: userAddress?.state + " - " || "" },
     { label: "Post/zip code", value: userAddress?.pincode || "" },
     { label: "Country", value: userAddress?.country || "" },
   ];

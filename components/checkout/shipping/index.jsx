@@ -176,7 +176,7 @@ export default function Shipping({ profile }) {
           {addresses?.map((address, index) => {
             return (
               <div
-                className={`w-1/3 ${
+                className={`w-[32%] ${
                   UserDetail?.defaultAddress === address._id ? "" : "hover:scale-[1.05]"
                 }   transition ease-in-out duration-700`}
                 key={index}
