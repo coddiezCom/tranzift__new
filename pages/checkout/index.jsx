@@ -22,7 +22,7 @@ import { MdAdd } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
-import { getAddress, saveAddress, updateAddress } from "../../requests/user";
+import { getAddress } from "../../requests/user";
 // import MUI Modal
 import Modal from "@mui/material/Modal";
 
@@ -36,6 +36,7 @@ const getGiftCardDetail = (sku) => {
     throw error;
   }
 };
+
 export const ProductDetailLayout = ({
   data,
   Heading,
@@ -48,7 +49,7 @@ export const ProductDetailLayout = ({
 }) => {
   console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress, setPopupRole });
   return (
-    <div className="w-full flex flex-col gap-3   ">
+    <div className="w-full flex flex-col gap-3 ">
       {useFor != "billing" ? (
         <div className={"flex justify-start mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl">{Heading}</h2>
@@ -56,9 +57,9 @@ export const ProductDetailLayout = ({
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
-          <div className="flex gap-4">
+          <div className="flex gap-2">
             <span
-              className="h-8 w-8 flex flex-row items-center justify-center shadow text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
               onClick={() => {
                 setPopupRole("edit");
                 setIsToggleAddressForm(!isToggleAddressForm);
@@ -69,7 +70,7 @@ export const ProductDetailLayout = ({
               </button>
             </span>
             <span
-              className="h-8 w-8 flex flex-row items-center justify-center shadow text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
               onClick={() => {
                 setPopupRole("add");
                 setIsToggleAddressForm(!isToggleAddressForm);
@@ -85,10 +86,7 @@ export const ProductDetailLayout = ({
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
         {useFor != "billing" ? (
           data.map((detail, index) => (
-            <div
-              key={index}
-              className=" border-2 border-pink-600 flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between"
-            >
+            <div key={index} className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between">
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
@@ -106,13 +104,13 @@ export const ProductDetailLayout = ({
             </div>
           ))
         ) : (
-          <div className={`w-full border-2 border-violet-700 ${styles._address}`}>
+          <div className={`w-full inline gap-0 ${styles._address}`}>
             {data.map(
               (detail, index) =>
                 detail?.value && (
-                  <span key={index} className={`sm:text-sm text-xs ${styles._add}`}>
+                  <p key={index} className={`sm:text-sm text-xs ${styles._add}`}>
                     {detail?.value}
-                  </span>
+                  </p>
                 )
             )}
           </div>
@@ -276,7 +274,7 @@ export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discoun
   return (
     <>
       <ToastContainer />
-      <div className={"shadow-2xl   p-4 rounded-md w-[30%] flex flex-col gap-6    "}>
+      <div className={"shadow-2xl p-4 rounded-md w-[30%] flex flex-col gap-6    "}>
         <div className={"flex justify-start mr-auto"}>
           <h2 className="font-extrabold font-serif text-2xl">Cart Total</h2>
         </div>
@@ -299,7 +297,7 @@ export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discoun
 
         <div className={"border-2 border-gray-300 flex flex-col w-full justify-start mr-auto p-2 rounded-md"}>
           <h2 className="font-thin font-serif mr-auto text-sm">If you have a coupon code, please apply it below.</h2>
-          <div className=" w-full mx-3">
+          <div className=" w-full">
             <div className="relative border-2 border-gray-400 rounded-md mt-3">
               <label for="Search" className="sr-only">
                 Search
@@ -487,7 +485,7 @@ export const ProductDetails = ({ giftCardState }) => {
     { label: "Address 1", value: userAddress?.addressLineOne || "" },
     { label: "Address 2", value: userAddress?.addressLineTwo || "" },
     { label: "City", value: userAddress?.city || "" },
-    { label: "State", value: userAddress?.state || "" },
+    { label: "State", value: userAddress?.state + " - " || "" },
     { label: "Post/zip code", value: userAddress?.pincode || "" },
     { label: "Country", value: userAddress?.country || "" },
   ];
@@ -600,7 +598,7 @@ export const ProductDetails = ({ giftCardState }) => {
   return (
     <>
       <div
-        className={`border-2 border-blue-800  shadow-xl p-4 rounded-md w-[70%] flex flex-wrap flex-row gap-6 ${styles.__productDetails__container}`}
+        className={`shadow-xl p-4 rounded-md w-[70%] flex flex-wrap flex-row gap-6 ${styles.__productDetails__container}`}
       >
         <ProductDetailLayout data={productDetails} Heading={"Product Details"} />
         <ProductDetailLayout data={receiverDetails} Heading={"Receiver Details"} />
@@ -781,7 +779,7 @@ const Index = ({}) => {
   return (
     <div className={`flex items-center justify-center ${styles.__checkout}`}>
       <div
-        className={`border-2 border-green-900  flex-wrap   m-4   rounded-md     flex flex-row items-start justify-between ${styles.__checkout__wrapper}`}
+        className={`  flex-wrap   m-4   rounded-md     flex flex-row items-start justify-between ${styles.__checkout__wrapper}`}
       >
         <ProductDetails giftCardState={giftCardState} />
         <OrderSummary
