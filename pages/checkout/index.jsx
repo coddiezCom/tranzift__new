@@ -214,7 +214,7 @@ export const TermAndConditionModal = ({ data }) => {
   );
 };
 export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon }) => {
-  console.log(discount);
+  console.log( doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon );
   const [showMoreCoupon, setShowMoreCoupon] = useState(null);
   const [couponData, setCouponData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
