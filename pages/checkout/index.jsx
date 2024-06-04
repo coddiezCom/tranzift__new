@@ -22,7 +22,7 @@ import { MdAdd } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 // import components
 import AddressPopup from "../../components/checkout/shipping/AddressPopup";
-import { getAddress} from "../../requests/user";
+import { getAddress } from "../../requests/user";
 // import MUI Modal
 import Modal from "@mui/material/Modal";
 
@@ -56,42 +56,38 @@ export const ProductDetailLayout = ({
         </div>
       ) : (
         <div className={"flex justify-between w-full mr-auto"}>
-          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2
+          <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
 
-          {billingAddressExist ? (
+          {billingAddressExist && (
             <span
               className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-
               onClick={() => {
                 setPopupRole("edit");
                 setIsToggleAddressForm(!isToggleAddressForm);
               }}
             >
               <button>
-
                 <FaEdit />
               </button>
             </span>
-            <span
-              className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-              onClick={() => {
-                setPopupRole("add");
-                setIsToggleAddressForm(!isToggleAddressForm);
-              }}
-            >
-              <button>
-                <MdAdd size={20} />
-              </button>
-            </span>
-          </div>
-
+          )}
+          <span
+            className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+            onClick={() => {
+              setPopupRole("add");
+              setIsToggleAddressForm(!isToggleAddressForm);
+            }}
+          >
+            <button>
+              <MdAdd size={20} />
+            </button>
+          </span>
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
         {useFor != "billing" ? (
           data.map((detail, index) => (
             <div key={index} className="  flex flex-row bg-gray-50/20  w-full py-1 px-2 justify-between">
-
               {detail.label && <span className="w-4/12 md:w-1/2 sm:text-sm text-xs">{detail.label}</span>}
               {detail.label === "Gift Card" ? (
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
@@ -110,7 +106,6 @@ export const ProductDetailLayout = ({
           ))
         ) : (
           <div className={`w-full inline gap-0 ${styles._address}`}>
-
             {data.map(
               (detail, index) =>
                 detail?.value && (
@@ -217,7 +212,7 @@ export const TermAndConditionModal = ({ data }) => {
   );
 };
 export const OrderSummary = ({ doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon }) => {
-  console.log( doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon );
+  console.log(doPayment, giftCardState, handleDiscount, discount, gift_card, gift_card_coupon);
   const [showMoreCoupon, setShowMoreCoupon] = useState(null);
   const [couponData, setCouponData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -476,7 +471,7 @@ export const ProductDetails = ({ giftCardState }) => {
     };
     const loadAddresses = async () => {
       try {
-        const addresses = await fetchAddresses(userDetail?.user_id);
+        const addresses = await fetchAddresses(UserDetail?.user_id);
         setAddresses(addresses);
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -652,6 +647,7 @@ const Index = ({}) => {
     sku: "",
   });
   const router = useRouter();
+  const UserDetail = useSelector((state) => state.userDetail);
   const { gift_card, gift_card_coupon, sku } = giftCardDetails;
   useEffect(() => {
     const { query } = router;
@@ -672,6 +668,7 @@ const Index = ({}) => {
       }
     };
     fetchGiftCardDetails();
+    // initializeSDK(); // this is for cashfree
   }, []);
 
   const giftCardState = useSelector((state) => state.giftCardDetail);
@@ -752,15 +749,13 @@ const Index = ({}) => {
       }
     }
   };
-  let cashfree;
-  var initializeSDK = async function () {
-    cashfree = await load({
-      mode: "sandbox",
-    });
-  };
-  initializeSDK();
-  const UserDetail = useSelector((state) => state.userDetail);
+
+  console.log(UserDetail);
   const doPayment = async () => {
+    const cashfree = await load({
+      mode: "sandbox", //or production
+    });
+    console.log(cashfree);
     const baseUrl = "payment/createorder";
     try {
       const sampleData = {
@@ -771,10 +766,10 @@ const Index = ({}) => {
         email: UserDetail?.email_id,
         mobile: `${UserDetail?.phone}`,
       };
-      const orderResponse = apiHelper(baseUrl, {}, "POST", sampleData);
-      console.log(orderResponse, "orderResponse");
+      const orderResponse = await apiHelper(baseUrl, {}, "POST", sampleData);
+      console.log(orderResponse, orderResponse.data.payment_session_id, "orderResponse");
       let checkoutOptions = {
-        paymentSessionId: orderResponse.data.data.payment_session_id,
+        paymentSessionId: orderResponse.data.payment_session_id,
         redirectTarget: "_self",
       };
       cashfree.checkout(checkoutOptions);
