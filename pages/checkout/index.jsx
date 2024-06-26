@@ -57,30 +57,32 @@ export const ProductDetailLayout = ({
         <div className={"flex justify-between w-full mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
 
-          {billingAddressExist && (
+          <div className="flex items-center justify-end">
+            {billingAddressExist && (
+              <span
+                className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+                onClick={() => {
+                  setPopupRole("edit");
+                  setIsToggleAddressForm(!isToggleAddressForm);
+                }}
+              >
+                <button>
+                  <FaEdit />
+                </button>
+              </span>
+            )}
             <span
-              className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
               onClick={() => {
-                setPopupRole("edit");
+                setPopupRole("add");
                 setIsToggleAddressForm(!isToggleAddressForm);
               }}
             >
               <button>
-                <FaEdit />
+                <MdAdd size={20} />
               </button>
             </span>
-          )}
-          <span
-            className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-            onClick={() => {
-              setPopupRole("add");
-              setIsToggleAddressForm(!isToggleAddressForm);
-            }}
-          >
-            <button>
-              <MdAdd size={20} />
-            </button>
-          </span>
+          </div>
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
@@ -92,7 +94,7 @@ export const ProductDetailLayout = ({
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
                   <Image
                     src={detail.value}
-                    className="w-3/4 h-full object-contain rounded-lg"
+                    className="w-[33%] h-full object-contain rounded-lg"
                     alt="Gift Card"
                     width={500}
                     height={500}
@@ -660,8 +662,6 @@ const Index = ({}) => {
     fetchGiftCardDetails();
     // initializeSDK(); // this is for cashfree
   }, []);
-
-  
 
   const [discount, setDiscount] = useState({
     value: "",

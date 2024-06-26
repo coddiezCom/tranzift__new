@@ -12,8 +12,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 // import styles
 import styles from "@/styles/gift-card.module.scss";
+import DotLoader from "../DotLoader/DotLoader";
 const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, handleformChange }) => {
-  console.log(card,"cards")
+  console.log(card, "cards");
   return (
     <>
       <Box
@@ -69,7 +70,7 @@ const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, formik, han
                 variant="standard"
                 error={formik.touched.denomination && formik.errors.denomination}
                 value={formik.values.denomination}
-                helperText={`Min: ${card?.price?.min} Max: ${card?.price?.max}`}
+                helperText={card.price?.min ? `Min: ${card?.price?.min} Max: ${card?.price?.max}` : <DotLoader />}
                 // onChange={handleChange}
               />
             </CardContent>
