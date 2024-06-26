@@ -1,6 +1,6 @@
 export function stringAvatar(name) {
   if (name.split(" ").length > 1) {
-    name = name.split(" ")[0][0] + name.split(" ")[1][0];
+    name = name?.split(" ")[0][0] + name?.split(" ")[1][0];
 
   } else {
     name = name.split(" ")[0][0];
@@ -9,7 +9,7 @@ export function stringAvatar(name) {
     sx: {
       bgcolor: stringToColor(name),
     },
-    children: `${name.toUpperCase()}`,
+    children: `${name?.toUpperCase()}`,
   };
 }
 export function stringToColor(string) {

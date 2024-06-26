@@ -10,17 +10,7 @@ import AddressForm from "./AddressForm";
 import apiHelper from "@/utils/apiHelper";
 
 const AddressPopup = ({ address, role, usedIn, user, setAddresses, isToggleAddressForm, setIsToggleAddressForm,handleSubmit }) => {
-  console.log("AddressPopup", {
-    setAddresses,
-    address,
-    role,
-    usedIn,
-    user,
-    isToggleAddressForm,
-    setIsToggleAddressForm,
-    handleSubmit
-  });
-  console.log("Type of setIsToggleAddressForm:", setIsToggleAddressForm); // should log 'function'
+ 
 
   // const saveShippingHandler = async (shipping) => {
   //   const createAddressBaseUrl = "address/create-address";

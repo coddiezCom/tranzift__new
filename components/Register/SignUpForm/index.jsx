@@ -123,10 +123,8 @@ const index = ({ goToLogin, toggleUserMenu }) => {
           maxAge: 24 * 60 * 60, // Cookie expiration time in seconds (e.g., 30 days)
           // Other options can be set as well, such as 'secure', 'httpOnly', 'sameSite', etc.
         });
-        toggleUserMenu(false);
-      } else {
-        alert("error");
       }
+      toggleUserMenu(false);
     } catch (error) {
       console.error("Error during signup:", error); // Log the full error for debugging
       if (error?.response?.data?.message) {
