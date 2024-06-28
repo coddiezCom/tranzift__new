@@ -27,8 +27,8 @@ import { getAddress } from "../../requests/user";
 import Modal from "@mui/material/Modal";
 
 const getGiftCardDetail = (sku) => {
-  const baseUrl = `giftcards/gcdetails/${sku}`;
   try {
+    const baseUrl = `giftcards/gcdetails/${sku}`;
     const giftCardDetail = apiHelper(baseUrl);
     return giftCardDetail;
   } catch (error) {
@@ -47,6 +47,7 @@ export const ProductDetailLayout = ({
   isToggleAddressForm,
   setPopupRole,
 }) => {
+  console.log({ data, Heading, useFor, billingAddressExist, handleBillingAddress, setPopupRole });
   return (
     <div className="w-full flex flex-col gap-3 ">
       {useFor != "billing" ? (
@@ -57,32 +58,30 @@ export const ProductDetailLayout = ({
         <div className={"flex justify-between w-full mr-auto"}>
           <h2 className="font-extrabold font-serif text-xl md:text-2xl">{Heading}</h2>
 
-          <div className="flex items-center justify-end">
-            {billingAddressExist && (
-              <span
-                className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
-                onClick={() => {
-                  setPopupRole("edit");
-                  setIsToggleAddressForm(!isToggleAddressForm);
-                }}
-              >
-                <button>
-                  <FaEdit />
-                </button>
-              </span>
-            )}
+          {billingAddressExist && (
             <span
-              className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+              className="w-6 h-6 flex flex-row items-center justify-center shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
               onClick={() => {
-                setPopupRole("add");
+                setPopupRole("edit");
                 setIsToggleAddressForm(!isToggleAddressForm);
               }}
             >
               <button>
-                <MdAdd size={20} />
+                <FaEdit />
               </button>
             </span>
-          </div>
+          )}
+          <span
+            className="w-6 h-6  flex flex-row items-center justify-center  shadow-md  text-[#1973e8] rounded cursor-pointer hover:text-white hover:bg-[#1973e8] transition-all ease-linear delay-150 "
+            onClick={() => {
+              setPopupRole("add");
+              setIsToggleAddressForm(!isToggleAddressForm);
+            }}
+          >
+            <button>
+              <MdAdd size={20} />
+            </button>
+          </span>
         </div>
       )}
       <div className={`flex ${useFor == "billing" ? "flex-row" : "flex-col"} w-full gap-0`}>
@@ -94,7 +93,7 @@ export const ProductDetailLayout = ({
                 <span className="w-4/6 md:w-1/2 sm:text-sm text-xs">
                   <Image
                     src={detail.value}
-                    className="w-[33%] h-full object-contain rounded-lg"
+                    className="w-3/4 h-full object-contain rounded-lg"
                     alt="Gift Card"
                     width={500}
                     height={500}
@@ -411,6 +410,7 @@ export const ProductDetails = ({ giftCardState }) => {
   const [popupRole, setPopupRole] = useState(" ");
   const dispatch = useDispatch();
   const router = useRouter();
+  console.log(userAddress, addresses);
   const productDetails = [
     { label: "Product Name", value: giftCardState?.gift_card_name || "----" },
     { label: "Gift Card", value: "/images/gift_card/Fastrack_E-Gift_Card_dtp.jpg" }, // TODO: Replace with actual image
@@ -437,6 +437,8 @@ export const ProductDetails = ({ giftCardState }) => {
     const fetchAddressById = async () => {
       // defaultAddress nhi h kyu ki defaultAddress set hi nahi kiya
       const baseUrl = `address/address/${UserDetail?.defaultAddress}`;
+      console.log(UserDetail);
+      console.log(baseUrl, "fetchAddressById -> baseUrl");
       //TODO: setup a tooltip to show alert that default address is not set
 
       if (!UserDetail?.defaultAddress) {
@@ -458,6 +460,7 @@ export const ProductDetails = ({ giftCardState }) => {
       try {
         // Assuming getAddresses is an async function to fetch addresses
         const addresses = await getAddress(userId);
+        console.log("addresses", addresses);
         setAddresses(addresses.addresses);
         return addresses.addresses;
       } catch (error) {
@@ -487,12 +490,16 @@ export const ProductDetails = ({ giftCardState }) => {
     { label: "Post/zip code", value: userAddress?.pincode || "" },
     { label: "Country", value: userAddress?.country || "" },
   ];
+  console.log(BillingDetails, "BillingDetails");
   const handleBillingAddress = (type) => {
+    console.log("handleBillingAddress", type);
     setIsToggleAddressForm(!isToggleAddressForm);
     return type;
   };
+  console.log(UserDetail, "UserDetail");
 
   const saveShippingHandler = async (shipping) => {
+    console.log(shipping, "shipping");
     const createAddressBaseUrl = "address/create-address";
     const getAddressBaseUrl = `address/get-all-address?associatedUser=${UserDetail?.user_id}`;
     const setDefaultAddressBaseUrl = `user/setdefaultaddress/${UserDetail?.user_id}`;
@@ -508,6 +515,7 @@ export const ProductDetails = ({ giftCardState }) => {
         country: shipping.country,
         pincode: Number(shipping.zipCode),
       });
+      console.log(res, "res -> saveShippingHandler -> AddressPopup");
       setUserAddress(res?.address);
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
@@ -520,6 +528,7 @@ export const ProductDetails = ({ giftCardState }) => {
       const res = await apiHelper(setDefaultAddressBaseUrl, {}, "PATCH", {
         addressId: userAddress?._id,
       });
+      console.log(res, "res -> saveShippingHandler -> AddressPopup");
       dispatch(
         SetUserDetail({
           ...UserDetail,
@@ -532,6 +541,7 @@ export const ProductDetails = ({ giftCardState }) => {
 
     try {
       const getAddresses = await apiHelper(getAddressBaseUrl, {}, "GET");
+      console.log(getAddresses, "getAddresses");
       setAddresses(getAddresses?.addresses);
     } catch (error) {
       console.log("[SHIPING_PAGE]", error);
@@ -539,6 +549,7 @@ export const ProductDetails = ({ giftCardState }) => {
     }
   };
   const UpdateAddress = async (shipping) => {
+    console.log(shipping, userAddress, "UpdateAddress -> shippingData");
     const baseUrl = `address/address/${userAddress?._id}`;
     try {
       const res = await apiHelper(baseUrl, {}, "PATCH", {
@@ -551,6 +562,7 @@ export const ProductDetails = ({ giftCardState }) => {
         country: shipping.country,
         pincode: Number(shipping.zipCode),
       });
+      console.log(res, "res");
       setUserAddress(res?.address);
       dispatch(
         SetUserDetail({
@@ -636,19 +648,15 @@ const Index = ({}) => {
   });
   const router = useRouter();
   const UserDetail = useSelector((state) => state.userDetail);
-  const giftCardState = useSelector((state) => state.giftCardDetail);
-  console.log(UserDetail, "UserDetail");
   const { gift_card, gift_card_coupon, sku } = giftCardDetails;
   useEffect(() => {
     const { query } = router;
     if (!query) {
       throw new Error("Query not found");
     }
-    const gift_card_sku = query?.gift_card;
-    console.log(gift_card_sku, "gift_card_sku");
     const fetchGiftCardDetails = async () => {
-      console.log(gift_card_sku, "gift_card_sku");
       try {
+        const gift_card_sku = query?.gift_card;
         const gift_card_detail = await getGiftCardDetail(gift_card_sku);
         setGiftCardDetails({
           gift_card: gift_card_detail?.GCDetails,
@@ -662,6 +670,9 @@ const Index = ({}) => {
     fetchGiftCardDetails();
     // initializeSDK(); // this is for cashfree
   }, []);
+
+  const giftCardState = useSelector((state) => state.giftCardDetail);
+  console.log(giftCardState, "giftCardState");
 
   const [discount, setDiscount] = useState({
     value: "",
@@ -739,8 +750,8 @@ const Index = ({}) => {
     }
   };
 
+  console.log(UserDetail);
   const doPayment = async () => {
-    console.log("doPayment", giftCardState);
     const cashfree = await load({
       mode: "sandbox", //or production
     });
@@ -755,19 +766,15 @@ const Index = ({}) => {
         email: UserDetail?.email_id,
         mobile: `${UserDetail?.phone}`,
       };
-      console.log(sampleData, "sampleData");
       const orderResponse = await apiHelper(baseUrl, {}, "POST", sampleData);
-      console.log(orderResponse, "orderResponse");
-      console.log(orderResponse.data.payment_session_id, "orderResponse");
+      console.log(orderResponse, orderResponse.data.payment_session_id, "orderResponse");
       let checkoutOptions = {
         paymentSessionId: orderResponse.data.payment_session_id,
         redirectTarget: "_self",
       };
-      console.log(checkoutOptions, "checkoutOptions");
-      const res = await cashfree.checkout(checkoutOptions);
-      console.log(res, "res");
+      cashfree.checkout(checkoutOptions);
     } catch (err) {
-      throw new Error(err);
+      console.log(err);
     }
   };
   return (

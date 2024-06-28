@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 // import styles
 import styles from "@/styles/gift-card.module.scss";
 const Index = ({ card, selectedDeliveryOption, handleDeliveryOption, CardImg, formik, handleformChange }) => {
+  console.log('testing', { card, selectedDeliveryOption, handleDeliveryOption, CardImg, formik, handleformChange });
   return (
     <Box
       sx={{ width: "100%", height: "100%", display: "flex", flexDirection: "row" }}

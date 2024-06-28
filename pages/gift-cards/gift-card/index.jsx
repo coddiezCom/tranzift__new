@@ -124,19 +124,16 @@ const getGiftCardDetail = async (sku) => {
 const Index = () => {
   const router = useRouter();
   const [gift_card, setGift_card] = useState({});
-  console.log(gift_card, "gift_card");
   const [gift_cardDetail, setGift_cardDetail] = useState({});
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState("send_as_Gift");
   const { userDetail } = useSelector((state) => ({ ...state }));
   const giftCardInitialState = useSelector((state) => state.giftCardDetail);
   const dispatch = useDispatch();
-  
-  const sku = router.query.sku;
-  console.log(sku, "sku");
+
   useEffect(() => {
+    const sku = router.query.sku;
     if (!sku) {
-      return;
-      // throw new Error("SKU not found");
+      throw new Error("SKU not found");
     }
     
     // Fetch gift card data from API
@@ -147,7 +144,6 @@ const Index = () => {
           throw new Error("Gift card not found");
         }
         setGift_card(giftCard);
-        console.log(giftCard, "giftCard");
   
         // If gift card is fetched successfully, proceed to fetch gift card details
         const giftCardSku = giftCard.sku;
@@ -157,7 +153,6 @@ const Index = () => {
   
         const giftCardDetail = await getGiftCardDetail(giftCardSku);
         const GCDetails = giftCardDetail?.GCDetails;
-        console.log(giftCardDetail, "giftCardDetail");
         setGift_cardDetail(GCDetails);
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -173,7 +168,7 @@ const Index = () => {
     };
   
     fetchGiftCardData();
-  }, [router.query]);
+  }, [router.query?.sku]);
   
 
   const minDenomination = gift_card?.price?.min ? gift_card?.price?.min : 1;
@@ -237,8 +232,6 @@ const Index = () => {
           ...values,
           gift_card_name: gift_card?.name,
           sku: gift_card?.sku,
-          cardImage: gift_card?.images,
-
         })
       );
       router.push(`/checkout?gift_card=${gift_card?.sku}`);

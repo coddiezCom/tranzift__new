@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 // imports
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SetUserDetail } from "@/store/UserSlice";
 import Avatar from "@mui/material/Avatar";
 import { stringAvatar, stringToColor } from "@/utils/avatarGenerator";
@@ -16,7 +16,6 @@ import limitCharacter from "@/utils/limitCharacter";
 export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log("userDetail", userDetail);
   const signOut = () => {
     // console.log("sign out");
     dispatch(
@@ -44,8 +43,13 @@ export default function UserMenu({ userDetail, visible, toggleUserMenu }) {
     {
       icon: <FaClipboardList />,
       name: "My Orders",
-      link: `/profile/orders`,
+      link: "/profile/orders",
     },
+    // {
+    //   icon: <IoWallet />,
+    //   name: "Wallet",
+    //   link: "/profile/wallet",
+    // },
     {
       icon: <FaMapMarkerAlt />,
       name: "Manage Address",

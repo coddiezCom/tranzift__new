@@ -5,7 +5,6 @@ const initialState = {
   gift_card_name: "",
   quantity: "",
   denomination: "",
-  cardImage: "",
   reciver_name: "",
   reciver_email: "",
   reciver_phone_number: "",
@@ -22,7 +21,6 @@ export const GiftCardDetail = createSlice({
       state.gift_card_name = action.payload.gift_card_name;
       state.quantity = action.payload.quantity;
       state.denomination = action.payload.denomination;
-      state.cardImage = action.payload.cardImage;
       state.reciver_name = action.payload.reciver_name;
       state.reciver_email = action.payload.reciver_email;
       state.reciver_phone_number = action.payload.reciver_phone_number;
