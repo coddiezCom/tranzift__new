@@ -7,6 +7,7 @@ import GiftCard from "../../components/GiftCard/GiftCard";
 import GiftCardBanner from "../../components/GiftCard/GiftCardBanner";
 import CategorySelection from "../../components/GiftCard/CategorySelection";
 import styles from "@/styles/gift-card.module.scss";
+import DotLoader from "@/components/DotLoader/DotLoader";
 
 const SkeletonLoader = () => {
   return (
@@ -140,7 +141,7 @@ const Index = ({}) => {
             hasMore={hasMore}
             loader={<SkeletonLoader />} // Replace with your skeleton loader component
           >
-            <GiftCardList cards={displayedCards} />
+            {displayedCards.length == 0 ? <DotLoader /> : <GiftCardList cards={displayedCards} />}
           </InfiniteScroll>
         </div>
       </div>

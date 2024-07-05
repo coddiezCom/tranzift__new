@@ -133,7 +133,7 @@ const Index = () => {
   useEffect(() => {
     const sku = router.query.sku;
     if (!sku) {
-      throw new Error("SKU not found");
+      return;
     }
     
     // Fetch gift card data from API

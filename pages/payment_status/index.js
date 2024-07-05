@@ -28,10 +28,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { UserDetail } from "../../store/UserSlice";
-const formatTransactionId = (txnId) => {
-  const formattedTxnId = txnId?.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
-  return formattedTxnId;
-};
+// const formatTransactionId = (txnId) => {
+//   const formattedTxnId = txnId?.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
+//   return formattedTxnId;
+// };
 // table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -59,7 +59,7 @@ export function PaymentStatusCard( {paymentResponseData} ) {
   const successMessage = "Thank you for purchasing a gift card. Your payment has been successfully processed.";
   const FailedMessage = "We're sorry, but there was an issue processing your payment. Please try again.";
   const errorNote = "Any amount deducted will be refunded to your bank account within 3-5 business days.";
-  const orderCreatedDate = dayjs(order_date).format("dddd  D, YYYY, h:mm A");
+  const orderCreatedDate = dayjs(order_date).format("dddd  MMMM DD, YYYY HH:mm");
   const customerName = order_details?.customer_details?.customer_name;
 
   const componentRef = useRef();
@@ -69,7 +69,7 @@ export function PaymentStatusCard( {paymentResponseData} ) {
   }
 
   const tableData = [
-    createData("Transaction ID", formatTransactionId(order_id)),
+    createData("Transaction ID", order_id),
     createData("Transaction Status", order_status),
     createData("Recipient", customerName),
     createData("Payment For", "Purchasing a Gift Card"),
