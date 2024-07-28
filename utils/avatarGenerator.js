@@ -9,7 +9,7 @@ export function stringAvatar(name) {
     sx: {
       bgcolor: stringToColor(name),
     },
-    children: `${name.toUpperCase()}`,
+    children: `${name?.toUpperCase()}`,
   };
 }
 export function stringToColor(string) {

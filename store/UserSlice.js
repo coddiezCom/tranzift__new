@@ -7,6 +7,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   phone: "",
+  isEmailVerified:false,
   defaultAddress: "",
 };
 
@@ -17,11 +18,11 @@ export const UserDetail = createSlice({
     SetUserDetail(state, action) {
       state.user_id = action.payload.user_id;
       state.email_id = action.payload.email_id;
-      state.user_name = action.payload.user_name;
       state.token = action.payload.token;
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
       state.phone = action.payload.phone;
+      state.isEmailVerified = action.payload.isEmailVerified;
       state.defaultAddress = action.payload.defaultAddress;
     },
   },

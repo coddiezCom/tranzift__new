@@ -2,37 +2,19 @@ import React, { useState } from "react";
 import Link from "next/link";
 import styles from "@/styles/signup.module.scss";
 import Image from "next/image";
-// react-icons
-import { HiMiniLockClosed } from "react-icons/hi2";
-import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 // Mui-Components
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 // Mui colors
 import * as Yup from "yup"; // Import Yup for validation
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import { setCookie } from "nookies"; // Import nookies package
 import { useDispatch } from "react-redux";
 import { SetUserDetail } from "@/store/UserSlice";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 import { useMediaQuery } from "react-responsive";
 import apiHelper from "@/utils/apiHelper";
 // import yup validation
 import { Form, Formik } from "formik";
 import FormInput from "@/components/inputs/FormInput";
-const blueShadeStyle = {
-  textTransform: "capitalize",
-  backgroundImage: "linear-gradient(to bottom right, #00c6ff, #0072ff)",
-  fontSize: "1em",
-  fontWeight: "700",
-  color: "white",
-  "&:hover": {},
-};
-const index = ({ goToLogin, toggleUserMenu }) => {
+const Index = ({ goToLogin, toggleUserMenu }) => {
   const dispatch = useDispatch();
   const initValue = {
     fName: "",
@@ -114,6 +96,7 @@ const index = ({ goToLogin, toggleUserMenu }) => {
             token: signup?.token,
             firstName: signup?.user?.firstName,
             lastName: signup?.user?.lastName,
+            isEmailVerified: signup?.user?.isEmailVerified,
             phone: signup?.user?.phoneNo,
           })
         );
@@ -263,4 +246,4 @@ const index = ({ goToLogin, toggleUserMenu }) => {
   );
 };
 
-export default index;
+export default Index;

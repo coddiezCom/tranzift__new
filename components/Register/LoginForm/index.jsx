@@ -3,42 +3,18 @@ import Link from "next/link";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import FormInput from "@/components/inputs/FormInput";
-// react-icons
-import { HiMiniLockClosed } from "react-icons/hi2";
+
 // Mui-Components
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 // Mui colors
 import * as Yup from "yup"; // Import Yup for validation
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import { setCookie } from "nookies"; // Import nookies package
 import { useDispatch } from "react-redux";
 import { SetUserDetail } from "@/store/UserSlice";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import { useRouter } from "next/router";
-import { SetToggleRegisterPopup } from "@/store/ToggleRegisterPopup";
 import { useMediaQuery } from "react-responsive";
 import apiHelper from "@/utils/apiHelper";
 import { Form, Formik } from "formik";
-const blueShadeStyle = {
-  textTransform: "capitalize",
-  backgroundImage: "linear-gradient(to bottom right, #00c6ff, #0072ff)",
-  fontSize: "1em",
-  fontWeight: "700",
-  color: "white",
-  "&:hover": {},
-};
-
-const validationSchema_ = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Invalid email format"),
-  password: Yup.string().required("Password is required"),
-});
-
-const index = ({ gotoSignUp, handleModal }) => {
+const Index = ({ gotoSignUp, handleModal }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const initValue = {
@@ -68,6 +44,7 @@ const index = ({ gotoSignUp, handleModal }) => {
           firstName: loginRes.user.firstName,
           lastName: loginRes.user.lastName,
           phone: loginRes.user.phoneNo,
+          isEmailVerified: loginRes.user.isEmailVerified,
           defaultAddress: loginRes.user.defaultAddress,
         })
       );
@@ -198,4 +175,4 @@ const index = ({ gotoSignUp, handleModal }) => {
   );
 };
 
-export default index;
+export default Index;

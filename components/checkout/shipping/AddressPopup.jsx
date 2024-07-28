@@ -9,10 +9,10 @@ import Modal from "@mui/material/Modal";
 // import component
 import AddressForm from "./AddressForm";
 
-const AddressPopup = ({ address, role, usedIn, user, setAddresses }) => {
+const AddressPopup = ({ address, role, usedIn, user, setAddresses , handleSetDefaultAddress=()=>{} }) => {
   const [isToggleAddressForm, setIsToggleAddressForm] = useState(false);
   // TODO : make this SavingShippingHandler or UpdateAddress in Shipping Component
-  const saveShippingHandler = async (shipping) => {
+  const saveAddressHandler = async (shipping) => {
     // console.log(shipping, "saveShippingHandler -> shippingData");
     const res = await saveAddress(shipping, user);
     try {
@@ -41,7 +41,7 @@ const AddressPopup = ({ address, role, usedIn, user, setAddresses }) => {
     if (role == "edit") {
       UpdateAddress(address);
     } else {
-      saveShippingHandler(address);
+      saveAddressHandler(address);
     }
   };
   return (

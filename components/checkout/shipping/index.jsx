@@ -73,7 +73,7 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
   const toggleAddressForm = () => {
     setIsToggleAddressForm(!isToggleAddressForm);
   };
-  const handleSelectedAddress = async (addressId) => {
+  const handleSetDefaultAddress = async (addressId) => {
     try {
       const res = await changeActiveAddress(addressId, user);
       dispatch(
@@ -115,6 +115,7 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
                   address={address}
                   handleSubmit={UpdateAddress}
                   setAddresses={setAddresses}
+                  handleSetDefaultAddress={handleSetDefaultAddress}
                 />
                 <div
                   className={`${styles.address__delete} text-gray-400 hover:text-red-700 transition ease-in-out delay-75 `}
@@ -127,7 +128,7 @@ export default function Shipping({ user, addresses, setAddresses, profile }) {
                     userDetail?.defaultAddress === address._id ? "shadow-inner shadow-[#6176fe]   " : "shadow-md  "
                   } rounded-xl  `}
                   key={address._id}
-                  onClick={() => handleSelectedAddress(address._id)}
+                  onClick={() => handleSetDefaultAddress(address._id)}
                 >
                   <div className={`${styles.address__side}`}>
                     <Avatar {...stringAvatar(fullName.toUpperCase())} />

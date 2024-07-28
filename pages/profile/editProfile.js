@@ -18,13 +18,13 @@ export function EditProfile({ user }) {
   const router = useRouter();
   const tab = router.query.tab || 0; // Accessing tab from query parameters
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email_id || "",
+    phoneNumber: user?.phone || "",
   };
   const [userDetail, setUserDetail] = useState(initialValues);
-  const { firstName, lastName, phoneNumber, zipCode, email } = userDetail;
+  const { firstName, lastName, phoneNumber, email } = userDetail;
   const validate = Yup.object({
     firstName: Yup.string()
       .required("First name is required.")
@@ -39,7 +39,9 @@ export function EditProfile({ user }) {
       // .test('is-phone', 'Phone number is not valid', phone())
       .min(3, "Phone number must be atleast 3 characters long.")
       .max(30, "Phone number must be less than 20 characters long."),
-    email: Yup.string().email("Email is not valid.").required("Email is required."),
+    email: Yup.string()
+      .email("Email is not valid.")
+      .required("Email is required."),
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,8 +58,15 @@ export function EditProfile({ user }) {
         phoneNo: userDetail.phoneNumber,
         id: user.user_id,
       });
-      console.log(res, "response");
-      alert("update success");
+      if (res.status === "success") {
+        setUserDetail({
+          ...user,
+          firstName: res?.data?.user?.firstName,
+          lastName: res?.data?.user?.lastName,
+          email: res?.data?.user?.email,
+          phoneNumber: res?.data?.user?.phoneNo,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -84,19 +93,28 @@ export function EditProfile({ user }) {
         >
           {(formik) => (
             <Form>
-              <FormInput name="firstName" placeholder="First Name*" onChange={handleChange} />
-              <FormInput name="lastName" placeholder="Last Name*" onChange={handleChange} />
-              <FormInput name="phoneNumber" placeholder="Phone number*" onChange={handleChange} />
-              <FormInput name="email" placeholder="Email ID*" onChange={handleChange} />
-              <button
-                type="submit"
-                onClick={() => console.log(formik)}
-                className={`shadow-md px-1 py-2 text-sm font-bold bg-[#6176fe] w-24 text-[#fff] shadow-gray-500 transition delay-200  rounded-md  hover:bg-[#6176fe] hover:text-[#fff] `}
-              >
-                Save
-              </button>
-              {/* <button type="submit" className="hover:bg-red-500">Save Changes</button> */}
+              <FormInput
+                name="firstName"
+                placeholder="First Name*"
+                onChange={handleChange}
+              />
+              <FormInput
+                name="lastName"
+                placeholder="Last Name*"
+                onChange={handleChange}
+              />
+              <FormInput
+                name="phoneNumber"
+                placeholder="Phone number*"
+                onChange={handleChange}
+              />
+              <FormInput
+                name="email"
+                placeholder="Email ID*"
+                onChange={handleChange}
+              />
               <span>
+               <button type="submit" className="">Save Changes</button>
                 <button>cancel</button>
               </span>
             </Form>
