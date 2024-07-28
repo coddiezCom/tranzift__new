@@ -55,7 +55,7 @@ const PostHeader = ({ showOnly, mobileLinks, navigationLinks }) => {
                 >
                   {item.text}
                 </Link>
-                {item.sublinks && giftCardHeader?.length > 0 && (
+                {/* {item.sublinks && giftCardHeader?.length > 0 && (
                   <ul className={styles.__subList}>
                     {giftCardHeader?.map((item, index) => {
                       const navigatePath = `/gift-cards?selectedCategories=${item?._id}`;
@@ -71,7 +71,7 @@ const PostHeader = ({ showOnly, mobileLinks, navigationLinks }) => {
                       );
                     })}
                   </ul>
-                )}
+                )} */}
               </li>
             );
           })}

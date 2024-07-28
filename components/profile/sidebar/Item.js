@@ -59,7 +59,7 @@ export default function Item({ item, visible, index }) {
         </b>
       )}
       {show && (
-        <ul>
+        <ul key={index} >
           {item.links.map((link, i) => {
             return (
               <>

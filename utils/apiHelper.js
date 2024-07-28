@@ -16,7 +16,7 @@ const apiHelper = async (endpoint, params = {}, method = "GET", data = null, hea
     });
     return response.data;
   } catch (error) {
-    console.error("Api Error", error);
+    console.error("Api handler Error", error);
     throw error;
   }
 };

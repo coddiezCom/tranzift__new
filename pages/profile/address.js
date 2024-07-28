@@ -9,17 +9,20 @@ import { getAddress } from "../../requests/user";
 import { useRouter } from "next/router"; // Import the useRouter hook
 
 export default function Index() {
-  const { userDetail } = useSelector((state) => ({ ...state }));
+  const UserDetail = useSelector((state) => state.userDetail);
   const [addresses, setAddresses] = useState([]);
   const router = useRouter(); // Initialize the useRouter hook
+  console.log(UserDetail, "UserDetail");
 
   const tab = router.query.tab || 0; // Access the query parameters using useRouter
+  // console.log("tab", tab);
 
   useEffect(() => {
     const fetchAddresses = async (userId) => {
       try {
         // Assuming getAddresses is an async function to fetch addresses
         const addresses = await getAddress(userId);
+        console.log("addresses", addresses);
         return addresses.addresses;
       } catch (error) {
         console.log("[ADDRESS_PAGE]", error);
@@ -30,7 +33,7 @@ export default function Index() {
 
     const loadAddresses = async () => {
       try {
-        const addresses = await fetchAddresses(userDetail?.user_id);
+        const addresses = await fetchAddresses(UserDetail?.user_id);
         setAddresses(addresses);
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -39,11 +42,11 @@ export default function Index() {
     };
 
     loadAddresses();
-  }, [userDetail?.user_id]);
+  }, [UserDetail?.user_id]);
 
   return (
-    <Layout session={userDetail} tab={tab}>
-      <Shipping user={userDetail} addresses={addresses} setAddresses={setAddresses} profile />
+    <Layout session={UserDetail} tab={tab}>
+      <Shipping user={UserDetail} addresses={addresses} setAddresses={setAddresses} profile />
     </Layout>
   );
 }

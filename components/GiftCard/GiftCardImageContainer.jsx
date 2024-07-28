@@ -9,6 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import styles from "@/styles/gift-card.module.scss";
 // react-responsive
 import { useMediaQuery } from "react-responsive";
+import DotLoader from "../DotLoader/DotLoader";
 const Index = ({ card, CardImg }) => {
   const isTablet = useMediaQuery({ query: "(max-width:768px)" });
   const discounts = [
@@ -41,12 +42,19 @@ const Index = ({ card, CardImg }) => {
   ];
   return (
     <CardContent sx={{ padding: 0 }} className={styles.__cardDetail}>
-      <Typography gutterBottom variant="h6" sx={{ fontSize: "1em" }} component="div" className={styles.__name}>
-        {card?.name.substr(0, 24) + "..."}
-      </Typography>
-      <Typography gutterBottom variant="h6" sx={{ fontSize: "0.5em" }} component="div" className={styles.__valid}>
-        {card?.expiry ? " Validity: " + card?.expiry : ""}
-      </Typography>
+      {card.name ? (
+        <div className="">
+          <Typography gutterBottom variant="h6" sx={{ fontSize: "1em" }} component="div" className={styles.__name}>
+            {card?.name?.substring(0, 24) + "..."}
+          </Typography>
+          <Typography gutterBottom variant="h6" sx={{ fontSize: "0.5em" }} component="div" className={styles.__valid}>
+            {card?.expiry ? " Validity: " + card?.expiry : ""}
+          </Typography>
+        </div>
+      ) : (
+        <DotLoader />
+      )}
+
       <div className={styles.__imageContainer}>
         <div className={styles.__discount}>
           {discounts[0]?.discount?.amount ? "Off " + discounts[0]?.discount?.amount + "%" : ""}

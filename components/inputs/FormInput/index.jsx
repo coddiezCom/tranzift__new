@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { useField, ErrorMessage } from "formik";
 import { useEffect, useState, useRef } from "react";
+
+
 const index = ({ placeholder, styleType = "type1", ...props }) => {
   const inputRef = useRef(null);
   const [field, meta] = useField(props);

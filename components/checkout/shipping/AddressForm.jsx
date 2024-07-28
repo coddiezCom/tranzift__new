@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 // import react liabary
 import { useState } from "react";
-// import yup validation
+// import yup validation 
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 // import components
@@ -11,8 +11,8 @@ import SingularSelect from "@/components/selects/SingularSelect";
 // import react-icons
 import { RxCross1 } from "react-icons/rx";
 const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
-  const initialValues = {
-    // why there is address in initial values?
+  console.log("AddressForm",{ handleSubmit, closeForm, address, role });
+  const [shipping, setShipping] = useState({
     state: address?.state || "",
     city: address?.city || "",
     zipCode: address?.pincode || "",
@@ -20,8 +20,7 @@ const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
     address2: address?.addressLineTwo || "",
     country: address?.country || "",
     addressType: address?.addressType || "",
-  };
-  const [shipping, setShipping] = useState(initialValues);
+  });
   const { state, city, zipCode, address1, address2, country } = shipping;
   const validate = Yup.object({
     state: Yup.string()
@@ -77,7 +76,7 @@ const AddressForm = ({ handleSubmit, closeForm, address, role }) => {
                 <FormInput name="state" placeholder="*State/Province" onChange={handleChange} />
               </div>
               <div className={styles.addressForm__row}>
-                <FormInput name="zipCode" placeholder="*Post/Zip code" onChange={handleChange} />
+                <FormInput name="zipCode" placeholder="*Post/Zip code" onChange={handleChange} type="number"/>
                 <SingularSelect
                   name="country"
                   value={country}

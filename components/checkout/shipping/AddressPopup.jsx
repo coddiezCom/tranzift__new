@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import { useState } from "react";
 // import user api requests
 import { updateAddress, changeActiveAddress, deleteAddress, getAddress, saveAddress } from "@/requests/user";
 // import react icons
@@ -8,6 +7,7 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Modal from "@mui/material/Modal";
 // import component
 import AddressForm from "./AddressForm";
+import apiHelper from "@/utils/apiHelper";
 
 const AddressPopup = ({ address, role, usedIn, user, setAddresses , handleSetDefaultAddress=()=>{} }) => {
   const [isToggleAddressForm, setIsToggleAddressForm] = useState(false);
@@ -46,17 +46,17 @@ const AddressPopup = ({ address, role, usedIn, user, setAddresses , handleSetDef
   };
   return (
     <>
-      {!usedIn ? (
+      {/* {!usedIn ? ( 
         role == "edit" ? (
-          <div
+          <button
             className={`${styles.address__Edit} text-[#6176fe] font-bold cursor-pointer`}
             onClick={() => setIsToggleAddressForm(true)}
           >
             Edit
-          </div>
+          </button>
         ) : (
           <button className={styles.hide_show} onClick={() => setIsToggleAddressForm(true)}>
-            <span>
+            <span className="border-2 purple-blue-800  ">
               <span>{isToggleAddressForm ? <AiOutlineMinus /> : <AiOutlinePlus />}</span>
               Add Address
             </span>
@@ -64,7 +64,24 @@ const AddressPopup = ({ address, role, usedIn, user, setAddresses , handleSetDef
         )
       ) : (
         ""
-      )}
+      )} */}
+      {/* {role == "edit" ? (
+        <button
+          className={`${styles.address__Edit} text-[#6176fe] font-bold cursor-pointer`}
+          onClick={() => setIsToggleAddressForm(true)}
+        >
+          Edit
+        </button>
+      ) : role == "add" ? (
+        <button className={styles.hide_show} onClick={() => setIsToggleAddressForm(true)}>
+          <span className="border-2 purple-blue-800  ">
+            <span>{isToggleAddressForm ? <AiOutlineMinus /> : <AiOutlinePlus />}</span>
+            Add Address
+          </span>
+        </button>
+      ) : (
+        ""
+      )} */}
       <Modal
         open={isToggleAddressForm}
         onClose={() => setIsToggleAddressForm(false)}
@@ -74,10 +91,10 @@ const AddressPopup = ({ address, role, usedIn, user, setAddresses , handleSetDef
         className={`my-2 ${styles.__modal}`}
       >
         <AddressForm
+          role={role}
           address={address}
           handleSubmit={handleSubmit}
           closeForm={() => setIsToggleAddressForm(false)}
-          role={role}
         />
       </Modal>
     </>

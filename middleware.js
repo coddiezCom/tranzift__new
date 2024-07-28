@@ -5,11 +5,11 @@ export async function middleware(req) {
   if (pathname == "/checkout") {
     if (!hasSession) return NextResponse.redirect(`${origin}`);
   }
-  // if (pathname.startsWith("/profile")) {
-  //   if (!hasSession) return NextResponse.redirect(`${origin}`);
-  // }
+  if (pathname.startsWith("/profile")) {
+    if (!hasSession) return NextResponse.redirect(`${origin}`);
+  }
 
-  // if (pathname.startsWith("/payment_status")) {
-  //   if (!hasSession) return NextResponse.redirect(`${origin}`);
-  // }
+  if (pathname.startsWith("/payment_status")) {
+    if (!hasSession) return NextResponse.redirect(`${origin}`);
+  }
 }

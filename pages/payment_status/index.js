@@ -1,5 +1,5 @@
 // import react liabary
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Head from "next/head";
@@ -28,10 +28,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { UserDetail } from "../../store/UserSlice";
-const formatTransactionId = (txnId) => {
-  const formattedTxnId = txnId.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
-  return formattedTxnId;
-};
+// const formatTransactionId = (txnId) => {
+//   const formattedTxnId = txnId?.replace(/^(\w{3})(\d{4})(\d{4})(\d{4})(\d{4})$/, "$1-$2-$3-$4-$5");
+//   return formattedTxnId;
+// };
 // table
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,22 +53,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export function PaymentStatusCard({ paymentResponseData }) {
+export function PaymentStatusCard( {paymentResponseData} ) {
   const { order_id, order_amount, order_status, order_date, order_details } = paymentResponseData;
+  console.log( order_id, order_amount, order_status, order_date, order_details, "paymentResponseData");
   const successMessage = "Thank you for purchasing a gift card. Your payment has been successfully processed.";
   const FailedMessage = "We're sorry, but there was an issue processing your payment. Please try again.";
   const errorNote = "Any amount deducted will be refunded to your bank account within 3-5 business days.";
-  const orderCreatedDate = dayjs(order_date).format("dddd  D, YYYY, h:mm A");
+  const orderCreatedDate = dayjs(order_date).format("dddd  MMMM DD, YYYY HH:mm");
   const customerName = order_details?.customer_details?.customer_name;
 
-  const componentRef = React.useRef();
+  const componentRef = useRef();
   // console.log(componentRef.current, "ref");
   function createData(name, value) {
     return { name, value };
   }
 
   const tableData = [
-    createData("Transaction ID", formatTransactionId(order_id)),
+    createData("Transaction ID", order_id),
     createData("Transaction Status", order_status),
     createData("Recipient", customerName),
     createData("Payment For", "Purchasing a Gift Card"),
@@ -162,38 +163,69 @@ export function PaymentStatusCard({ paymentResponseData }) {
   );
 }
 const getPaymentOrderDetail = async (orderId) => {
+  const baseUrl = `payment/getorderstatus/${orderId}`;
   try {
-    const baseUrl = `payment/getorderstatus/${orderId}`;
     const orderResponse = await apiHelper(baseUrl);
     return orderResponse;
   } catch (error) {
     return error;
   }
 };
-const PaymentStatus = ({ paymentOrder, error }) => {
-  const router = useRouter();
-  const paymentResponseData = {
-    order_id: paymentOrder?.orderDetails?.order_id,
-    order_amount: paymentOrder?.orderDetails?.order_amount,
-    order_status: paymentOrder?.orderDetails?.order_status,
-    order_details: paymentOrder?.orderDetails,
-    order_date: paymentOrder?.orderDetails?.created_at,
-  };
+
+const Index = () => {
+  const [paymentOrder, setPaymentOrder] = useState(null);
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const userDetail = useSelector((state) => state.userDetail);
   const giftCardDetail = useSelector((state) => state.giftCardDetail);
-  const paymentOrderStatus = paymentOrder?.orderDetails?.order_status;
-  const [paymentOrder, setPaymentOrder] = useState({});
-  const [error, setError] = useState(null);
+  
+  const router = useRouter();
   const orderId = router.query.order_id;
+  console.log(orderId, "orderId");
+  useEffect(() => {
+    console.log(orderId, "orderId");
+    const baseUrl = `payment/getorderstatus/${orderId}`;
+
+    const fetchData = async () => {
+      // do this from here 3/6/24
+      if(!orderId) {
+        return;
+      }
+      try {
+        const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
+        setPaymentOrder(paymentOrderStatusData.data);
+        setError(null);
+      } catch (error) {
+        setError(error.message || "An error occurred");
+        setPaymentOrder(null);
+      }
+    };
+
+    fetchData();
+  }, [orderId]);
+
+  
+  const paymentResponseData = {
+    order_id: paymentOrder?.orderDetails?.order_id || "",
+    order_amount: paymentOrder?.orderDetails?.order_amount || "",
+    order_status: paymentOrder?.orderDetails?.order_status || "",
+    order_details: paymentOrder?.orderDetails || "",
+    order_date: paymentOrder?.orderDetails?.created_at || "", 
+  };
+  const paymentOrderStatus = paymentOrder?.orderDetails?.order_status;
+
   console.log("router.query.order_id", router.query.order_id);
   useEffect(() => {
     if (paymentOrderStatus === "PAID" || paymentOrderStatus === "ACTIVE") {
       createWoohooOrder(paymentOrderStatus);
     }
   }, []);
+
   useEffect(() => {
     const getGaymentOrderStatusData = async () => {
+      if(!orderId) {
+        return;
+      }
       try {
         const paymentOrderStatusData = await getPaymentOrderDetail(orderId);
         setPaymentOrder(paymentOrderStatusData.data);
@@ -238,9 +270,9 @@ const PaymentStatus = ({ paymentOrder, error }) => {
       });
 
       if (check.status === "success") {
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
+        // setTimeout(() => {
+        //   router.push("/");
+        // }, 3000);
 
         const baseUrl = "transaction/create-transaction";
         const trn = await apiHelper(baseUrl, {}, "POST", {
@@ -266,8 +298,7 @@ const PaymentStatus = ({ paymentOrder, error }) => {
     </div>
   );
 };
-
-export default PaymentStatus;
+export default Index;
 
 function GiftIcon(props) {
   return (
